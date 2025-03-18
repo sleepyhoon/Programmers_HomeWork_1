@@ -1,6 +1,6 @@
 package com.domain.view;
 
-import com.domain.dto.ResponsePostDto;
+import com.domain.dto.post.ResponsePostDto;
 import java.util.List;
 
 public class OutputView {

@@ -1,7 +1,7 @@
 package com.domain.entity;
 
-import com.domain.dto.CreatePostDto;
-import com.domain.dto.UpdatePostDto;
+import com.domain.dto.post.CreatePostDto;
+import com.domain.dto.post.UpdatePostDto;
 import java.util.Objects;
 
 public class Post implements Comparable<Post> {

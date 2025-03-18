@@ -1,4 +1,4 @@
-package com.domain.dto;
+package com.domain.dto.post;
 
 public class RequestPostDto {
     private Integer id;

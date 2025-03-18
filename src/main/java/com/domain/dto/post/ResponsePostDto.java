@@ -1,4 +1,4 @@
-package com.domain.dto;
+package com.domain.dto.post;
 
 import com.domain.entity.Post;
 import java.util.Objects;

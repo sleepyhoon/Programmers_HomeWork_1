@@ -1,9 +1,9 @@
 package com.domain.controller;
 
-import com.domain.dto.CreatePostDto;
-import com.domain.dto.RequestPostDto;
-import com.domain.dto.ResponsePostDto;
-import com.domain.dto.UpdatePostDto;
+import com.domain.dto.post.CreatePostDto;
+import com.domain.dto.post.RequestPostDto;
+import com.domain.dto.post.ResponsePostDto;
+import com.domain.dto.post.UpdatePostDto;
 import com.domain.service.PostService;
 import com.domain.view.InputView;
 import java.util.List;
