@@ -1,4 +1,4 @@
-package com.dto;
+package com.domain.dto;
 
 import java.util.Objects;
 

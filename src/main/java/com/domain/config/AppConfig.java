@@ -1,9 +1,9 @@
-package com.config;
+package com.domain.config;
 
-import com.controller.PostController;
-import com.repository.PostRepository;
-import com.service.PostService;
-import com.view.InputView;
+import com.domain.controller.PostController;
+import com.domain.repository.PostRepository;
+import com.domain.service.PostService;
+import com.domain.view.InputView;
 
 public abstract class AppConfig {
     private static final InputView inputview = new InputView();

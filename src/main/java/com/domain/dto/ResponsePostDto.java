@@ -1,6 +1,6 @@
-package com.dto;
+package com.domain.dto;
 
-import com.entity.Post;
+import com.domain.entity.Post;
 import java.util.Objects;
 
 public class ResponsePostDto {

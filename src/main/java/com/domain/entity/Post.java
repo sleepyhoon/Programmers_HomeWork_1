@@ -1,7 +1,7 @@
-package com.entity;
+package com.domain.entity;
 
-import com.dto.CreatePostDto;
-import com.dto.UpdatePostDto;
+import com.domain.dto.CreatePostDto;
+import com.domain.dto.UpdatePostDto;
 import java.util.Objects;
 
 public class Post {

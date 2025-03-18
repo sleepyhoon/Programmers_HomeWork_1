@@ -1,6 +1,6 @@
-package com.repository;
+package com.domain.repository;
 
-import com.entity.Post;
+import com.domain.entity.Post;
 import java.util.HashMap;
 
 public class PostRepository {
@@ -28,5 +28,9 @@ public class PostRepository {
     // 삭제
     public void delete(Integer number) {
         postHashMap.remove(number);
+    }
+
+    public boolean contains(Integer number) {
+        return postHashMap.containsKey(number);
     }
 }

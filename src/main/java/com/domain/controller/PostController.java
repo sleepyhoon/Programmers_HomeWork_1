@@ -1,11 +1,11 @@
-package com.controller;
+package com.domain.controller;
 
-import com.dto.CreatePostDto;
-import com.dto.ResponsePostDto;
-import com.dto.RequestPostDto;
-import com.dto.UpdatePostDto;
-import com.service.PostService;
-import com.view.InputView;
+import com.domain.dto.CreatePostDto;
+import com.domain.dto.ResponsePostDto;
+import com.domain.dto.RequestPostDto;
+import com.domain.dto.UpdatePostDto;
+import com.domain.service.PostService;
+import com.domain.view.InputView;
 
 public class PostController {
     private final String CREATE_RESULT = "번 글을 성공적으로 만들었습니다!";

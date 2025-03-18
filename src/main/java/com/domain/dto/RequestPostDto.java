@@ -1,15 +1,15 @@
-package com.dto;
+package com.domain.dto;
 
 public class RequestPostDto {
-    private Integer postNumber;
+    private Integer id;
 
-    private RequestPostDto(String postNumber) {
-        validate(postNumber);
-        this.postNumber = Integer.valueOf(postNumber.substring(0, postNumber.length() - 1));
+    private RequestPostDto(String id) {
+        validate(id);
+        this.id = Integer.valueOf(id.substring(0, id.length() - 1));
     }
 
-    public Integer getPostNumber() {
-        return postNumber;
+    public Integer getId() {
+        return id;
     }
 
     public static RequestPostDto from(String postNumber) {
