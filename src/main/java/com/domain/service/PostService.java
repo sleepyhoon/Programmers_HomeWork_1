@@ -7,6 +7,7 @@ import com.domain.dto.UpdatePostDto;
 import com.domain.entity.Post;
 import com.domain.repository.PostRepository;
 import com.global.exception.NoSuchPostException;
+import java.util.List;
 
 public class PostService {
     private final PostRepository postRepository;
@@ -22,6 +23,13 @@ public class PostService {
         }
         Post post = postRepository.get(postNumber);
         return ResponsePostDto.from(post);
+    }
+
+    public List<ResponsePostDto> selectAll() {
+        List<Post> all = postRepository.getAll();
+        return all.stream()
+                .map(ResponsePostDto::from)
+                .toList();
     }
 
     public Integer create(CreatePostDto createPostDto) {

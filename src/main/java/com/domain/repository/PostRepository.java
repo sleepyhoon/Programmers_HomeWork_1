@@ -1,7 +1,10 @@
 package com.domain.repository;
 
 import com.domain.entity.Post;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class PostRepository {
     private final HashMap<Integer, Post> postHashMap = new HashMap<>();
@@ -17,6 +20,13 @@ public class PostRepository {
     // 조회
     public Post get(Integer postNumber) {
         return postHashMap.get(postNumber);
+    }
+
+    // 전체 조회
+    public List<Post> getAll() {
+        List<Post> list = new ArrayList<>(postHashMap.values());
+        Collections.sort(list);
+        return list;
     }
 
     // 수정

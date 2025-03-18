@@ -4,7 +4,7 @@ import com.domain.dto.CreatePostDto;
 import com.domain.dto.UpdatePostDto;
 import java.util.Objects;
 
-public class Post {
+public class Post implements Comparable<Post> {
     private Integer id;
     private String title;
     private String content;
@@ -70,5 +70,10 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return this.id - o.id;
     }
 }

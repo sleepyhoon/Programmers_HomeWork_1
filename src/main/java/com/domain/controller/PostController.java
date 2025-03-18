@@ -6,6 +6,7 @@ import com.domain.dto.RequestPostDto;
 import com.domain.dto.UpdatePostDto;
 import com.domain.service.PostService;
 import com.domain.view.InputView;
+import java.util.List;
 
 public class PostController {
     private final String CREATE_RESULT = "번 글을 성공적으로 만들었습니다!";
@@ -40,6 +41,13 @@ public class PostController {
                     delete();
                     System.out.println(userInput + DELETE_RESULT);
                 }
+                case "목록" -> {
+                    List<ResponsePostDto> responsePostDtos = selectAll();
+                    System.out.println("총 게시글은 " + responsePostDtos.size() + "개 작성되어있습니다.");
+                    for (ResponsePostDto responsePostDto : responsePostDtos) {
+                        System.out.println(responsePostDto);
+                    }
+                }
                 default -> System.out.println("잘못된 입력");
             }
         }
@@ -68,5 +76,9 @@ public class PostController {
     private void delete() {
         String userDeleteNumber = inputView.getUserDeleteNumber();
         postService.delete(RequestPostDto.from(userDeleteNumber));
+    }
+
+    private List<ResponsePostDto> selectAll() {
+        return postService.selectAll();
     }
 }

@@ -21,11 +21,6 @@ public class ResponsePostDto {
         return content;
     }
 
-    // 정적 팩토리 메서드
-    public static ResponsePostDto of(String title, String content) {
-        return new ResponsePostDto(title, content);
-    }
-
     public static ResponsePostDto from(Post post) {
         return new ResponsePostDto(post.getTitle(), post.getContent());
     }
