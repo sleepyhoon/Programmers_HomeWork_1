@@ -6,76 +6,59 @@ import com.domain.dto.RequestPostDto;
 import com.domain.dto.UpdatePostDto;
 import com.domain.service.PostService;
 import com.domain.view.InputView;
+import com.domain.view.OutputView;
 import java.util.List;
 
 public class PostController {
-    private final String CREATE_RESULT = "번 글을 성공적으로 만들었습니다!";
-    private final String UPDATE_RESULT = "번 글을 성공적으로 수정했습니다!";
-    private final String DELETE_RESULT = "번 글을 성공적으로 삭제했습니다!";
+    private final PostService postService;
 
-    private InputView inputView;
-    private PostService postService;
-
-    public PostController(InputView inputView,PostService postService) {
-        this.inputView = inputView;
+    public PostController(PostService postService) {
         this.postService = postService;
     }
 
     public void play() {
-        while(true) {
-            String userInput = inputView.getUserCommand();
-            switch (userInput) {
-                case "작성" -> {
-                    Integer createIndex = create();
-                    System.out.println(createIndex + CREATE_RESULT);
+        try {
+            while(true) {
+                String userInput = InputView.getUserCommand();
+                switch (userInput) {
+                    case "작성" -> OutputView.showCreateResult(create());
+                    case "조회" -> OutputView.showPost(select());
+                    case "수정" -> OutputView.showUpdateResult(update());
+                    case "삭제" -> OutputView.showDeleteResult(delete());
+                    case "목록" -> OutputView.showAllPosts(selectAll());
+                    default -> OutputView.showInvalidCommand();
                 }
-                case "조회" -> {
-                    ResponsePostDto data = select(); // String
-                    System.out.println(data);
-                }
-                case "수정" -> {
-                    Integer updateIndex = update();
-                    System.out.println(updateIndex + UPDATE_RESULT);
-                }
-                case "삭제" -> {
-                    delete();
-                    System.out.println(userInput + DELETE_RESULT);
-                }
-                case "목록" -> {
-                    List<ResponsePostDto> responsePostDtos = selectAll();
-                    System.out.println("총 게시글은 " + responsePostDtos.size() + "개 작성되어있습니다.");
-                    for (ResponsePostDto responsePostDto : responsePostDtos) {
-                        System.out.println(responsePostDto);
-                    }
-                }
-                default -> System.out.println("잘못된 입력");
             }
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     // crud 전부 id는 반환하게 변경해야 함.
     private Integer create() {
-        String userPostTitle = inputView.getUserPostTitle();
-        String userPostContent = inputView.getUserPostContent();
+        String userPostTitle = InputView.getUserPostTitle();
+        String userPostContent = InputView.getUserPostContent();
         return postService.create(CreatePostDto.of(userPostTitle, userPostContent));
     }
 
     private ResponsePostDto select() {
-        String userSelectNumber = inputView.getUserSelectNumber();
+        String userSelectNumber = InputView.getUserSelectNumber();
         return postService.select(RequestPostDto.from(userSelectNumber));
     }
 
     private Integer update() {
-        String userUpdateNumber = inputView.getUserUpdateNumber();
+        String userUpdateNumber = InputView.getUserUpdateNumber();
         System.out.println(userUpdateNumber + "번 게시물을 수정합니다.");
-        String userPostTitle = inputView.getUserPostTitle();
-        String userPostContent = inputView.getUserPostContent();
+        String userPostTitle = InputView.getUserPostTitle();
+        String userPostContent = InputView.getUserPostContent();
         return postService.update(UpdatePostDto.of(userUpdateNumber,userPostTitle,userPostContent));
+
     }
 
-    private void delete() {
-        String userDeleteNumber = inputView.getUserDeleteNumber();
+    private Integer delete() {
+        String userDeleteNumber = InputView.getUserDeleteNumber();
         postService.delete(RequestPostDto.from(userDeleteNumber));
+        return Integer.valueOf(userDeleteNumber);
     }
 
     private List<ResponsePostDto> selectAll() {
