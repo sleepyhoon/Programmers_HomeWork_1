@@ -1,11 +1,11 @@
 package com;
 
 import com.config.AppConfig;
-import com.controller.BoardController;
+import com.controller.PostController;
 
 public class Main {
     public static void main(String[] args) {
-        BoardController boardController = AppConfig.getBoardController();
-        boardController.play();
+        PostController postController = AppConfig.getBoardController();
+        postController.play();
     }
 }
