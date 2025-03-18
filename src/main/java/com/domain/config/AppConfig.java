@@ -1,6 +1,6 @@
 package com.domain.config;
 
-import com.domain.Application;
+import com.Application;
 import com.domain.controller.PostController;
 import com.domain.repository.PostRepository;
 import com.domain.service.PostService;

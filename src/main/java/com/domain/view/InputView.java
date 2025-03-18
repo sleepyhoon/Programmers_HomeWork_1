@@ -6,7 +6,7 @@ public class InputView {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String getUserCommand() {
-        System.out.print("명령어 > ");
+        System.out.print("a ");
         return scanner.nextLine();
     }
 

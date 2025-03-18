@@ -1,6 +1,5 @@
 package com;
 
-import com.domain.Application;
 import com.domain.config.AppConfig;
 
 public class Main {

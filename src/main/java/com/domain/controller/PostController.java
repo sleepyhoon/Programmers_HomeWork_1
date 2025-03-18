@@ -15,7 +15,6 @@ public class PostController {
         this.postService = postService;
     }
 
-    // crud 전부 id는 반환하게 변경해야 함.
     public Integer create() {
         String userPostTitle = InputView.getUserPostTitle();
         String userPostContent = InputView.getUserPostContent();
@@ -27,13 +26,10 @@ public class PostController {
         return postService.select(RequestPostDto.from(userSelectNumber));
     }
 
-    public Integer update() {
-        String userUpdateNumber = InputView.getUserUpdateNumber();
-        System.out.println(userUpdateNumber + "번 게시물을 수정합니다.");
+    public Integer update(String userUpdateNumber) {
         String userPostTitle = InputView.getUserPostTitle();
         String userPostContent = InputView.getUserPostContent();
-        return postService.update(UpdatePostDto.of(userUpdateNumber,userPostTitle,userPostContent));
-
+        return postService.update(UpdatePostDto.of(userUpdateNumber, userPostTitle, userPostContent));
     }
 
     public Integer delete() {
