@@ -13,7 +13,6 @@ public class PostRepository {
     // 저장
     public void save(Post post) {
         post.setId(mapIndex);
-        System.out.println(post + "을 저장합니다.");
         postHashMap.put(mapIndex++, post);
     }
 
@@ -31,7 +30,6 @@ public class PostRepository {
 
     // 수정
     public void update(Post post) {
-        System.out.println(post + "을 저장합니다.");
         postHashMap.put(post.getId(), post);
     }
 
