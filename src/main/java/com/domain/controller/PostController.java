@@ -32,10 +32,9 @@ public class PostController {
         return postService.update(UpdatePostDto.of(userUpdateNumber, userPostTitle, userPostContent));
     }
 
-    public Integer delete() {
-        String userDeleteNumber = InputView.getUserDeleteNumber();
-        postService.delete(RequestPostDto.from(userDeleteNumber));
-        return Integer.valueOf(userDeleteNumber);
+    public Integer delete(String userDeleteId) {
+        postService.delete(RequestPostDto.from(userDeleteId));
+        return Integer.valueOf(userDeleteId);
     }
 
     public List<ResponsePostDto> selectAll() {
