@@ -1,6 +1,7 @@
 package com;
 
 import com.domain.controller.BoardController;
+import com.domain.controller.MemberController;
 import com.domain.controller.PostController;
 import com.domain.view.InputView;
 import com.domain.view.OutputView;
@@ -9,10 +10,13 @@ import com.global.util.URLParser;
 public class Application {
     private final PostController postController;
     private final BoardController boardController;
+    private final MemberController memberController;
 
-    public Application(PostController postController, BoardController boardController) {
+    public Application(PostController postController, BoardController boardController,
+                       MemberController memberController) {
         this.postController = postController;
         this.boardController = boardController;
+        this.memberController = memberController;
     }
 
     public void play() {
@@ -45,6 +49,18 @@ public class Application {
                         case "remove" -> OutputView.showDeleteResult(boardController.delete(parameter));
                         default -> OutputView.showInvalidCommand();
                     }
+                } else if (target.equals("accounts")) {
+                    switch (action) {
+                        case "signup" -> memberController.signup();
+                        case "signin" -> memberController.signin();
+                        case "signout" -> memberController.signout();
+                        case "detail" -> memberController.detail();
+                        case "edit" -> memberController.edit();
+                        case "remove" -> memberController.remove();
+                        default -> OutputView.showInvalidCommand();
+                    }
+                } else if (target.equals("exit")) {
+                    break;
                 }
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());

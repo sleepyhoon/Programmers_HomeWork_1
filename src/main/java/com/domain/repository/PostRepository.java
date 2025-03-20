@@ -2,7 +2,6 @@ package com.domain.repository;
 
 import com.domain.entity.Post;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
