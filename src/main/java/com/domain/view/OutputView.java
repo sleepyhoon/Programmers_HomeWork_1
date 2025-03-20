@@ -32,7 +32,6 @@ public class OutputView {
     }
 
     public static void showAllPosts(List<ResponsePostDto> posts) {
-        System.out.println("총 게시글은 " + posts.size() + "개 작성되어있습니다.");
         for (ResponsePostDto post : posts) {
             System.out.println(post);
         }

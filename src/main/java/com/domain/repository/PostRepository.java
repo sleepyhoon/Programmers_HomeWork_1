@@ -2,6 +2,7 @@ package com.domain.repository;
 
 import com.domain.entity.Post;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,8 @@ public class PostRepository {
     }
 
     // 조회
-    public Post get(Integer postNumber) {
-        return postHashMap.get(postNumber);
+    public Post get(Integer postId) {
+        return postHashMap.get(postId);
     }
 
     // 전체 조회

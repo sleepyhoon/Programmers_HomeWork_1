@@ -1,14 +1,14 @@
-package com.domain.dto.post;
+package com.domain.dto.board;
 
 import java.util.Objects;
 
-public class UpdatePostDto {
+public class UpdateBoardDto {
     private final Integer id;
     private final String title;
     private final String content;
 
     // private 생성자
-    private UpdatePostDto(String id, String title, String content) {
+    private UpdateBoardDto(String id, String title, String content) {
         this.id = Integer.valueOf(id);
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
@@ -27,7 +27,7 @@ public class UpdatePostDto {
     }
 
     // 정적 팩토리 메서드
-    public static UpdatePostDto of(String id, String title, String content) {
-        return new UpdatePostDto(id, title, content);
+    public static UpdateBoardDto of(String id, String title, String content) {
+        return new UpdateBoardDto(id, title, content);
     }
 }

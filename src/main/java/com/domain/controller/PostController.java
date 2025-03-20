@@ -15,21 +15,20 @@ public class PostController {
         this.postService = postService;
     }
 
-    public Integer create() {
-        String userPostTitle = InputView.getUserPostTitle();
-        String userPostContent = InputView.getUserPostContent();
-        return postService.create(CreatePostDto.of(userPostTitle, userPostContent));
+    public Integer create(String boardId) {
+        String userPostTitle = InputView.getUserTitle();
+        String userPostContent = InputView.getUserContent();
+        return postService.create(CreatePostDto.of(boardId, userPostTitle, userPostContent));
     }
 
-    public ResponsePostDto select() {
-        String userSelectNumber = InputView.getUserSelectNumber();
-        return postService.select(RequestPostDto.from(userSelectNumber));
+    public ResponsePostDto select(String userSelectId) {
+        return postService.select(RequestPostDto.from(userSelectId));
     }
 
-    public Integer update(String userUpdateNumber) {
-        String userPostTitle = InputView.getUserPostTitle();
-        String userPostContent = InputView.getUserPostContent();
-        return postService.update(UpdatePostDto.of(userUpdateNumber, userPostTitle, userPostContent));
+    public Integer update(String userUpdatePostId) {
+        String userPostTitle = InputView.getUserTitle();
+        String userPostContent = InputView.getUserContent();
+        return postService.update(UpdatePostDto.of(userUpdatePostId, userPostTitle, userPostContent));
     }
 
     public Integer delete(String userDeleteId) {

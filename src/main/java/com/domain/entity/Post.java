@@ -2,39 +2,57 @@ package com.domain.entity;
 
 import com.domain.dto.post.CreatePostDto;
 import com.domain.dto.post.UpdatePostDto;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Post implements Comparable<Post> {
     private Integer id;
+    private Integer boardId;
     private String title;
     private String content;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
-    private Post(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    private Post(Integer id, String title, String content) {
+    private Post(Integer id, Integer boardId, String title, String content) {
         this.id = id;
+        this.boardId = boardId;
         this.title = title;
         this.content = content;
+        this.created = LocalDateTime.now();
+        this.updated = LocalDateTime.now();
     }
 
-    public static Post from(CreatePostDto createPostDto) {
-        Objects.requireNonNull(createPostDto.getTitle());
-        Objects.requireNonNull(createPostDto.getContent());
-        return new Post(createPostDto.getTitle(), createPostDto.getContent());
+    private Post(Integer id, Integer boardId, String title, String content, LocalDateTime created) {
+        this.id = id;
+        this.boardId = boardId;
+        this.title = title;
+        this.content = content;
+        this.created = created;
+        this.updated = LocalDateTime.now();
     }
 
-    public static Post from(UpdatePostDto updatePostDto) {
-        Objects.requireNonNull(updatePostDto.getId());
-        Objects.requireNonNull(updatePostDto.getTitle());
-        Objects.requireNonNull(updatePostDto.getContent());
-        return new Post(updatePostDto.getId(), updatePostDto.getTitle(), updatePostDto.getContent());
-    }
+    // id는 레포지토리에서 배정할 것이기 때문에 null로 선언한다.
 
+    public static Post from(CreatePostDto postDto) {
+        return new Post(null, postDto.getBoardId(), postDto.getTitle(), postDto.getContent());
+    }
+    public static Post of(UpdatePostDto updatePostDto, Integer boardId, LocalDateTime created) {
+        return new Post(updatePostDto.getId(), boardId, updatePostDto.getTitle(), updatePostDto.getContent(), created);
+    }
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getBoardId() {
+        return boardId;
     }
 
     public Integer getId() {
@@ -54,6 +72,18 @@ public class Post implements Comparable<Post> {
         return Objects.equals(id, post.id);
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
@@ -67,8 +97,11 @@ public class Post implements Comparable<Post> {
     public String toString() {
         return "Post{" +
                 "id=" + id +
+                ", boardId=" + boardId +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
                 '}';
     }
 
