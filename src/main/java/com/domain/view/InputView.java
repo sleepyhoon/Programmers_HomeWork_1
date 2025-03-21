@@ -3,11 +3,11 @@ package com.domain.view;
 import java.util.Scanner;
 
 public class InputView {
-    private static final String BOARD_URL_START = "https://";
+    private static final String URL_START = "https://programmers";
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String getUserCommand() {
-        System.out.print(BOARD_URL_START);
+        System.out.print(URL_START);
         return scanner.nextLine().trim();
     }
 

@@ -1,6 +1,6 @@
 package com;
 
-import com.domain.config.AppConfig;
+import com.global.config.AppConfig;
 
 public class Main {
     public static void main(String[] args) {
