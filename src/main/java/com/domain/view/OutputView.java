@@ -16,6 +16,7 @@ public class OutputView {
     private static final String MEMBER_UPDATE_SUCCESS = "성공적으로 수정했습니다!";
     private static final String MEMBER_DELETE_SUCCESS = "성공적으로 삭제했습니다!";
     private static final String INVALID_INPUT = "잘못된 입력입니다.";
+    private static final String TERMINATE_PROGRAM = "프로그램을 종료합니다.";
 
     public static void showCreateResult(Integer postId) {
         System.out.println(postId + CREATE_RESULT_SUCCESS);
@@ -74,5 +75,9 @@ public class OutputView {
 
     public static void showInvalidCommand() {
         System.out.println(INVALID_INPUT);
+    }
+
+    public static void showTerminateProgram() {
+        System.out.println(TERMINATE_PROGRAM);
     }
 }

@@ -8,14 +8,17 @@ import java.util.Objects;
 public class Post implements Comparable<Post> {
     private Integer id;
     private Integer boardId;
+    private Integer memberId;
     private String title;
     private String content;
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    private Post(Integer id, Integer boardId, String title, String content) {
+
+    private Post(Integer id, Integer boardId, Integer memberId, String title, String content) {
         this.id = id;
         this.boardId = boardId;
+        this.memberId = memberId;
         this.title = title;
         this.content = content;
         this.created = LocalDateTime.now();
@@ -32,13 +35,30 @@ public class Post implements Comparable<Post> {
     }
 
     // id는 레포지토리에서 배정할 것이기 때문에 null로 선언한다.
-
-    public static Post from(CreatePostDto postDto) {
-        return new Post(null, postDto.getBoardId(), postDto.getTitle(), postDto.getContent());
+    public static Post of(CreatePostDto postDto, Integer currentMemberId) {
+        return new Post(null, postDto.getBoardId(), currentMemberId, postDto.getTitle(), postDto.getContent());
     }
+
     public static Post of(UpdatePostDto updatePostDto, Integer boardId, LocalDateTime created) {
         return new Post(updatePostDto.getId(), boardId, updatePostDto.getTitle(), updatePostDto.getContent(), created);
     }
+
+    public Integer getBoardId() {
+        return boardId;
+    }
+
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -49,18 +69,6 @@ public class Post implements Comparable<Post> {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Integer getBoardId() {
-        return boardId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     @Override

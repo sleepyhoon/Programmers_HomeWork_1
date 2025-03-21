@@ -27,8 +27,15 @@ public class MemberService {
         if(!SessionContext.currentUserIsNull()) {
             throw new DuplicateSignInException("이미 로그인 상태입니다.");
         }
-        SessionContext.signIn(username);
-        return memberRepository.isCorrectDetail(username,password);
+        Integer memberId = memberRepository.getIdByUsername(username).orElseThrow(
+                () -> new NoSuchMemberException("해당 username을 가진 멤버가 없습니다.")
+        );
+        if(memberRepository.isCorrectDetail(username,password)){
+            SessionContext.signIn(memberId);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void signOut() {

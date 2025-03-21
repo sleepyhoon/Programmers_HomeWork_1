@@ -18,6 +18,21 @@ public class MemberRepository {
         return Optional.ofNullable(memberHashMap.get(userId));
     }
 
+    public Optional<Integer> getIdByUsername(String username) {
+        Collection<Member> values = memberHashMap.values();
+        for (Member member : values) {
+            if(member.getUsername().equals(username)) {
+                return Optional.of(member.getId());
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<String> getUsernameById(Integer memberId) {
+        Member member = memberHashMap.get(memberId);
+        return Optional.of(member.getUsername());
+    }
+
     public boolean isExistId(Integer userId) {
         return memberHashMap.containsKey(userId);
     }

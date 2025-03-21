@@ -7,19 +7,24 @@ import java.util.Objects;
 public class ResponsePostDto {
     private final String title;
     private final String content;
+    private final String username;
     private final LocalDateTime created;
     private final LocalDateTime updated;
 
     // private 생성자
-    private ResponsePostDto(String title, String content, LocalDateTime created, LocalDateTime updated) {
+    private ResponsePostDto(String title, String content, String username, LocalDateTime created, LocalDateTime updated) {
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
+        this.username = username;
         this.created = created;
         this.updated = updated;
     }
 
-    public static ResponsePostDto from(Post post) {
-        return new ResponsePostDto(post.getTitle(), post.getContent(), post.getCreated(), post.getUpdated());
+    public static ResponsePostDto of(Post post,String username) {
+        if(username == null) {
+            return new ResponsePostDto(post.getTitle(), post.getContent(), "비회원", post.getCreated(), post.getUpdated());
+        }
+        return new ResponsePostDto(post.getTitle(), post.getContent(), username, post.getCreated(), post.getUpdated());
     }
 
     @Override
@@ -27,6 +32,7 @@ public class ResponsePostDto {
         return "ResponsePostDto{" +
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", username='" + username + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
                 '}';

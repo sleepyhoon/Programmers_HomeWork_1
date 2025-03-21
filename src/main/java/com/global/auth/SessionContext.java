@@ -1,22 +1,23 @@
 package com.global.auth;
 
 public class SessionContext {
-    private static String currentUser = null;
+    private static Integer currentMemberId = null;
+    private static final Integer NOT_FOUND_ID = -1;
 
     // post 에 유저이름 등록할 때 사용한다.
-    public static String getCurrentUser() {
-        return currentUser == null ? "비회원" : currentUser;
+    public static Integer getCurrentMemberId() {
+        return currentMemberId == null ? NOT_FOUND_ID : currentMemberId;
     }
 
-    public static void signIn(String username) {
-        currentUser = username;
+    public static void signIn(Integer memberId) {
+        currentMemberId = memberId;
     }
 
     public static void signOut() {
-        currentUser = null;
+        currentMemberId = null;
     }
 
     public static boolean currentUserIsNull() {
-        return currentUser == null;
+        return currentMemberId == null;
     }
 }

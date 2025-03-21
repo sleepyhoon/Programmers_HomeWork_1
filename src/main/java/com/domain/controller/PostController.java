@@ -36,7 +36,7 @@ public class PostController {
         return Integer.valueOf(userDeleteId);
     }
 
-    public List<ResponsePostDto> selectAll() {
-        return postService.selectAll();
-    }
+//    public List<ResponsePostDto> selectAll() {
+//        return postService.selectAll();
+//    }
 }

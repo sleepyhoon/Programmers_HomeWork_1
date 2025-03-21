@@ -14,7 +14,7 @@ public class URLParser {
     private String controllerCode;
     private String target;
 
-    private Map<String, Object> parameters = new HashMap<>();
+    private final Map<String, Object> parameters = new HashMap<>();
     private boolean isValidURL = true;
 
     public URLParser(String url) {

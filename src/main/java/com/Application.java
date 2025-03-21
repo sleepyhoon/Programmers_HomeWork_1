@@ -25,6 +25,10 @@ public class Application {
         while (true) {
             try {
                 String userInput = InputView.getUserCommand();
+                if (userInput.equals("/.exit")) {
+                    OutputView.showTerminateProgram();
+                    return;
+                }
                 UserRequest userRequest = new UserRequest(userInput);
                 if (!userRequest.isValid()) {
                     OutputView.showInvalidCommand();
