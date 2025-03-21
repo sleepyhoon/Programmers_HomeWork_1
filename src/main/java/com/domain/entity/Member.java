@@ -1,6 +1,7 @@
 package com.domain.entity;
 
 import com.domain.dto.member.CreateMemberDto;
+import com.domain.dto.member.UpdateMemberDto;
 import java.time.LocalDateTime;
 
 public class Member {
@@ -43,8 +44,21 @@ public class Member {
         this.id = id;
     }
 
+    private void setPassword(String password) {
+        this.password = password;
+    }
+
+    private void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean isUserInputCorrect(String username, String password) {
         return this.username.equals(username) && this.password.equals(password);
+    }
+
+    public void update(UpdateMemberDto memberDto) {
+        this.password = memberDto.password();
+        this.email = memberDto.email();
     }
 
     public static Member of(CreateMemberDto dto) {

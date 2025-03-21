@@ -94,20 +94,29 @@ public class Application {
                             memberController.signOut();
                             OutputView.showSignOutResult();
                         }
-                        case "detail" -> OutputView.showMemberDetail(memberController.detail(parameter));
+                        case "detail" -> {
+                            parameter = userRequest.getValue("accountId", String.class);
+                            OutputView.showMemberDetail(memberController.detail(parameter));
+                        }
                         case "edit" -> {
+                            parameter = userRequest.getValue("accountId", String.class);
                             String userPassword = InputView.getUserPassword();
                             String userEmail = InputView.getUserEmail();
-                            memberController.edit(UpdateMemberDto.of(userPassword, userEmail));
+                            memberController.edit(UpdateMemberDto.of(parameter, userPassword, userEmail));
+                            OutputView.showMemberUpdateResult();
                         }
-                        case "remove" -> memberController.remove();
+                        case "remove" -> {
+                            parameter = userRequest.getValue("accountId", String.class);
+                            memberController.remove(parameter);
+                            OutputView.showMemberDeleteResult();
+                        }
                         default -> OutputView.showInvalidCommand();
                     }
                 }
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("올바른 입력을 해주세요!");
             } catch (NumberFormatException e) {
-                System.out.println("입력된 숫자를 확인해주세요!");
+                System.out.println("입력된 숫자 형식을 확인해주세요!");
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
                 e.getStackTrace();

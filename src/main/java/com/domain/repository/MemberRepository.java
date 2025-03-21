@@ -14,11 +14,15 @@ public class MemberRepository {
         memberHashMap.put(mapIndex++,member);
     }
 
-    public Optional<Member> get(Integer userId) {
-        return Optional.of(memberHashMap.get(userId));
+    public Optional<Member> getById(Integer userId) {
+        return Optional.ofNullable(memberHashMap.get(userId));
     }
 
-    public boolean signin(String username, String password) {
+    public boolean isExistId(Integer userId) {
+        return memberHashMap.containsKey(userId);
+    }
+
+    public boolean isCorrectDetail(String username, String password) {
         Collection<Member> values = memberHashMap.values();
         for (Member member : values) {
             if(member.isUserInputCorrect(username,password)) {
@@ -28,11 +32,11 @@ public class MemberRepository {
         return false;
     }
 
-    public void update() {
-
+    public void update(Member member) {
+        memberHashMap.put(member.getId(), member);
     }
 
-    public void remove() {
-
+    public void remove(Integer userId) {
+        memberHashMap.remove(userId);
     }
 }

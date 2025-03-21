@@ -11,8 +11,10 @@ public class OutputView {
     private static final String SIGNUP_RESULT_SUCCESS = "번 유저를 성공적으로 회원가입 했습니다!";
     private static final String DELETE_RESULT_SUCCESS = "번 글을 성공적으로 삭제했습니다!";
     private static final String SIGNIN_RESULT_SUCCESS = "성공적으로 로그인했습니다!";
+    private static final String SIGNIN_RESULT_FAILURE = "아이디나 비밀번호가 틀렸습니다.";
     private static final String SIGNOUT_RESULT_SUCCESS = "성공적으로 로그아웃했습니다!";
-    private static final String NOT_FOUND_ERROR = "해당 멤버를 찾을 수 없습니다.";
+    private static final String MEMBER_UPDATE_SUCCESS = "성공적으로 수정했습니다!";
+    private static final String MEMBER_DELETE_SUCCESS = "성공적으로 삭제했습니다!";
     private static final String INVALID_INPUT = "잘못된 입력입니다.";
 
     public static void showCreateResult(Integer postId) {
@@ -32,11 +34,11 @@ public class OutputView {
     }
 
     public static void showSignInResult() {
-        System.out.print(SIGNIN_RESULT_SUCCESS);
+        System.out.println(SIGNIN_RESULT_SUCCESS);
     }
 
     public static void showSignOutResult() {
-        System.out.print(SIGNOUT_RESULT_SUCCESS);
+        System.out.println(SIGNOUT_RESULT_SUCCESS);
     }
 
     public static void startUpdate(String postId) {
@@ -58,8 +60,16 @@ public class OutputView {
         System.out.println(detail);
     }
 
+    public static void showMemberUpdateResult() {
+        System.out.println(MEMBER_UPDATE_SUCCESS);
+    }
+
+    public static void showMemberDeleteResult() {
+        System.out.println(MEMBER_DELETE_SUCCESS);
+    }
+
     public static void showMemberNotFound() {
-        System.out.println(NOT_FOUND_ERROR);
+        System.out.println(SIGNIN_RESULT_FAILURE);
     }
 
     public static void showInvalidCommand() {

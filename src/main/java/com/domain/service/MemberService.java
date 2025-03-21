@@ -2,6 +2,7 @@ package com.domain.service;
 
 import com.domain.dto.member.CreateMemberDto;
 import com.domain.dto.member.ResponseMemberDetail;
+import com.domain.dto.member.UpdateMemberDto;
 import com.domain.entity.Member;
 import com.domain.repository.MemberRepository;
 import com.global.auth.SessionContext;
@@ -23,15 +24,15 @@ public class MemberService {
     }
 
     public boolean signIn(String username, String password) {
-        if(SessionContext.isSignInState()) {
+        if(!SessionContext.currentUserIsNull()) {
             throw new DuplicateSignInException("이미 로그인 상태입니다.");
         }
         SessionContext.signIn(username);
-        return memberRepository.signin(username,password);
+        return memberRepository.isCorrectDetail(username,password);
     }
 
     public void signOut() {
-        if(!SessionContext.isSignInState()) {
+        if(SessionContext.currentUserIsNull()) {
             throw new NotLoggedInException("로그인 상태가 아닙니다.");
         }
         SessionContext.signOut();
@@ -39,17 +40,25 @@ public class MemberService {
 
     public ResponseMemberDetail detail(String userId) {
         Integer id = Integer.parseInt(userId);
-        Member member = memberRepository.get(id).orElseThrow(
+        Member member = memberRepository.getById(id).orElseThrow(
                 () -> new NoSuchMemberException("해당 id를 가진 멤버가 없습니다.")
         );
         return ResponseMemberDetail.from(member);
     }
 
-    public void edit() {
-
+    public void edit(UpdateMemberDto memberDto) {
+        Member member = memberRepository.getById(memberDto.id()).orElseThrow(
+                () -> new NoSuchMemberException("해당 id를 가진 멤버가 없습니다.")
+        );
+        member.update(memberDto);
+        memberRepository.update(member);
     }
 
-    public void remove() {
-
+    public void remove(String userId) {
+        Integer id = Integer.parseInt(userId);
+        if(!memberRepository.isExistId(id)) {
+            throw new NoSuchMemberException("해당 id를 가진 멤버가 없습니다.");
+        }
+        memberRepository.remove(id);
     }
 }

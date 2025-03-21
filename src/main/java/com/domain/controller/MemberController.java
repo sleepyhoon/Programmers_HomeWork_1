@@ -2,6 +2,7 @@ package com.domain.controller;
 
 import com.domain.dto.member.CreateMemberDto;
 import com.domain.dto.member.ResponseMemberDetail;
+import com.domain.dto.member.UpdateMemberDto;
 import com.domain.service.MemberService;
 
 public class MemberController {
@@ -27,11 +28,11 @@ public class MemberController {
         return memberService.detail(userId);
     }
 
-    public void edit() {
-
+    public void edit(UpdateMemberDto memberDto) {
+        memberService.edit(memberDto);
     }
 
-    public void remove() {
-
+    public void remove(String userId) {
+        memberService.remove(userId);
     }
 }
