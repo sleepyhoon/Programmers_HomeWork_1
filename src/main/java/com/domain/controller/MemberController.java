@@ -11,16 +11,16 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public Integer signup(CreateMemberDto createMemberDto) {
-        return memberService.signup(createMemberDto);
+    public Integer signUp(CreateMemberDto createMemberDto) {
+        return memberService.signUp(createMemberDto);
     }
 
-    public void signin() {
-
+    public boolean signIn(String username, String password) {
+        return memberService.signIn(username,password);
     }
 
-    public void signout() {
-
+    public void signOut() {
+        memberService.signOut();
     }
 
     public ResponseMemberDetail detail(String userId) {

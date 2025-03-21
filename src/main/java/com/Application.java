@@ -57,11 +57,21 @@ public class Application {
                             String password = InputView.getUserPassword();
                             String nickname = InputView.getUserNickName();
                             String email = InputView.getUserEmail();
-                            OutputView.showCreateResult(
-                                    memberController.signup(CreateMemberDto.of(username, password, nickname, email)));
+                            OutputView.showSignUpResult(memberController.signUp(CreateMemberDto.of(username, password, nickname, email)));
                         }
-                        case "signin" -> memberController.signin();
-                        case "signout" -> memberController.signout();
+                        case "signin" -> {
+                            String username = InputView.getUsername();
+                            String userPassword = InputView.getUserPassword();
+                            if(memberController.signIn(username,userPassword)) {
+                                OutputView.showSignInResult();
+                            } else {
+                                OutputView.showMemberNotFound();
+                            }
+                        }
+                        case "signout" -> {
+                            memberController.signOut();
+                            OutputView.showSignOutResult();
+                        }
                         case "detail" -> OutputView.showMemberDetail(memberController.detail(parameter));
                         case "edit" -> memberController.edit();
                         case "remove" -> memberController.remove();
@@ -70,6 +80,10 @@ public class Application {
                 } else if (target.equals("exit")) {
                     break;
                 }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("게시물 번호를 확인해주세요!");
+            } catch (NumberFormatException e) {
+                System.out.println("입력된 숫자를 확인해주세요!");
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
                 e.getStackTrace();

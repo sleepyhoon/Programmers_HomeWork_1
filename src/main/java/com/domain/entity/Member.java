@@ -10,7 +10,6 @@ public class Member {
     private String nickname;
     private String email;
     private LocalDateTime created;
-    private boolean isLoggedIn;
 
     private Member(String username, String password, String nickname, String email) {
         this.username = username;
@@ -18,7 +17,6 @@ public class Member {
         this.nickname = nickname;
         this.email = email;
         this.created = LocalDateTime.now();
-        this.isLoggedIn = false;
     }
 
     public String getUsername() {
@@ -43,6 +41,10 @@ public class Member {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isUserInputCorrect(String username, String password) {
+        return this.username.equals(username) && this.password.equals(password);
     }
 
     public static Member of(CreateMemberDto dto) {

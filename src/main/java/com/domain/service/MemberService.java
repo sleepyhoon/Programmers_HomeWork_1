@@ -4,7 +4,10 @@ import com.domain.dto.member.CreateMemberDto;
 import com.domain.dto.member.ResponseMemberDetail;
 import com.domain.entity.Member;
 import com.domain.repository.MemberRepository;
+import com.global.auth.SessionContext;
+import com.global.exception.DuplicateSignInException;
 import com.global.exception.NoSuchMemberException;
+import com.global.exception.NotLoggedInException;
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -13,18 +16,25 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Integer signup(CreateMemberDto createMemberDto) {
+    public Integer signUp(CreateMemberDto createMemberDto) {
         Member member = Member.of(createMemberDto);
         memberRepository.save(member);
         return member.getId();
     }
 
-    public void signin() {
-
+    public boolean signIn(String username, String password) {
+        if(SessionContext.isSignInState()) {
+            throw new DuplicateSignInException("이미 로그인 상태입니다.");
+        }
+        SessionContext.signIn(username);
+        return memberRepository.signin(username,password);
     }
 
-    public void signout() {
-
+    public void signOut() {
+        if(!SessionContext.isSignInState()) {
+            throw new NotLoggedInException("로그인 상태가 아닙니다.");
+        }
+        SessionContext.signOut();
     }
 
     public ResponseMemberDetail detail(String userId) {
