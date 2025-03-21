@@ -1,5 +1,7 @@
 package com.domain.controller;
 
+import com.domain.dto.member.CreateMemberDto;
+import com.domain.dto.member.ResponseMemberDetail;
 import com.domain.service.MemberService;
 
 public class MemberController {
@@ -9,8 +11,8 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public void signup() {
-
+    public Integer signup(CreateMemberDto createMemberDto) {
+        return memberService.signup(createMemberDto);
     }
 
     public void signin() {
@@ -21,8 +23,8 @@ public class MemberController {
 
     }
 
-    public void detail() {
-
+    public ResponseMemberDetail detail(String userId) {
+        return memberService.detail(userId);
     }
 
     public void edit() {

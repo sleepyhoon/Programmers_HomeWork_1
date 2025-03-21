@@ -21,18 +21,23 @@ public class InputView {
         return scanner.nextLine().trim();
     }
 
-    public static String getUserSelectNumber() {
-        System.out.print("어떤 게시물을 조회할까요? ");
+    public static String getUsername() {
+        System.out.print("계정 이름을 입력해주세요 > ");
         return scanner.nextLine().trim();
     }
 
-    public static String getUserUpdateNumber() {
-        System.out.print("어떤 게시물을 수정할까요? ");
+    public static String getUserPassword() {
+        System.out.print("비밀번호를 입력해주세요 > ");
         return scanner.nextLine().trim();
     }
 
-    public static String getUserDeleteNumber() {
-        System.out.print("어떤 게시물을 삭제할까요? ");
+    public static String getUserNickName() {
+        System.out.print("닉네임을 입력해주세요 > ");
+        return scanner.nextLine().trim();
+    }
+
+    public static String getUserEmail() {
+        System.out.print("이메일을 입력해주세요 > ");
         return scanner.nextLine().trim();
     }
 }

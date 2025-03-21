@@ -3,6 +3,7 @@ package com;
 import com.domain.controller.BoardController;
 import com.domain.controller.MemberController;
 import com.domain.controller.PostController;
+import com.domain.dto.member.CreateMemberDto;
 import com.domain.view.InputView;
 import com.domain.view.OutputView;
 import com.global.util.URLParser;
@@ -51,10 +52,17 @@ public class Application {
                     }
                 } else if (target.equals("accounts")) {
                     switch (action) {
-                        case "signup" -> memberController.signup();
+                        case "signup" -> {
+                            String username = InputView.getUsername();
+                            String password = InputView.getUserPassword();
+                            String nickname = InputView.getUserNickName();
+                            String email = InputView.getUserEmail();
+                            OutputView.showCreateResult(
+                                    memberController.signup(CreateMemberDto.of(username, password, nickname, email)));
+                        }
                         case "signin" -> memberController.signin();
                         case "signout" -> memberController.signout();
-                        case "detail" -> memberController.detail();
+                        case "detail" -> OutputView.showMemberDetail(memberController.detail(parameter));
                         case "edit" -> memberController.edit();
                         case "remove" -> memberController.remove();
                         default -> OutputView.showInvalidCommand();
