@@ -17,7 +17,7 @@ public class BoardController {
     public Integer create(Integer authorId) {
         String userTitle = InputView.getUserTitle();
         String userContent = InputView.getUserContent();
-        return boardService.create(CreateBoardDto.of(authorId,userTitle,userContent));
+        return boardService.create(CreateBoardDto.of(authorId, userTitle, userContent));
     }
 
     public List<ResponsePostDto> selectAllPosts(String boardName) {
@@ -33,7 +33,7 @@ public class BoardController {
     public Integer update(String boardId) {
         String userBoardTitle = InputView.getUserTitle();
         String userBoardContent = InputView.getUserContent();
-        boardService.update(UpdateBoardDto.of(boardId,userBoardTitle,userBoardContent));
+        boardService.update(UpdateBoardDto.of(boardId, userBoardTitle, userBoardContent));
         return Integer.valueOf(boardId);
     }
 

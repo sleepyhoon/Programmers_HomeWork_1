@@ -24,9 +24,6 @@ public class MemberService {
     }
 
     public boolean signIn(String username, String password) {
-        if(!SessionContext.currentUserIsNull()) {
-            throw new DuplicateSignInException("이미 로그인 상태입니다.");
-        }
         Integer memberId = memberRepository.getIdByUsername(username).orElseThrow(
                 () -> new NoSuchMemberException("해당 username을 가진 멤버가 없습니다.")
         );
@@ -39,9 +36,6 @@ public class MemberService {
     }
 
     public void signOut() {
-        if(SessionContext.currentUserIsNull()) {
-            throw new NotLoggedInException("로그인 상태가 아닙니다.");
-        }
         SessionContext.signOut();
     }
 

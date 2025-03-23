@@ -7,15 +7,15 @@ import java.util.Objects;
 public class ResponsePostDto {
     private final String title;
     private final String content;
-    private final String username;
+    private final String authorName;
     private final LocalDateTime created;
     private final LocalDateTime updated;
 
     // private 생성자
-    private ResponsePostDto(String title, String content, String username, LocalDateTime created, LocalDateTime updated) {
+    private ResponsePostDto(String title, String content, String authorName, LocalDateTime created, LocalDateTime updated) {
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
-        this.username = username;
+        this.authorName = authorName;
         this.created = created;
         this.updated = updated;
     }
@@ -32,7 +32,7 @@ public class ResponsePostDto {
         return "ResponsePostDto{" +
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + authorName + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
                 '}';
