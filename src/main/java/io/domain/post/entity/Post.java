@@ -8,17 +8,17 @@ import java.util.Objects;
 public class Post implements Comparable<Post> {
     private Integer id;
     private Integer boardId;
-    private Integer memberId;
+    private Integer authorId;
     private String title;
     private String content;
     private LocalDateTime created;
     private LocalDateTime updated;
 
 
-    private Post(Integer id, Integer boardId, Integer memberId, String title, String content) {
+    private Post(Integer id, Integer boardId, Integer authorId, String title, String content) {
         this.id = id;
         this.boardId = boardId;
-        this.memberId = memberId;
+        this.authorId = authorId;
         this.title = title;
         this.content = content;
         this.created = LocalDateTime.now();
@@ -34,6 +34,11 @@ public class Post implements Comparable<Post> {
         this.updated = LocalDateTime.now();
     }
 
+    public void update(UpdatePostDto updatePostDto) {
+        this.title = updatePostDto.getTitle();
+        this.content = updatePostDto.getTitle();
+        this.updated = LocalDateTime.now();
+    }
     // id는 레포지토리에서 배정할 것이기 때문에 null로 선언한다.
     public static Post of(CreatePostDto postDto) {
         return new Post(null, postDto.getBoardId(), postDto.getAuthorId(), postDto.getTitle(), postDto.getContent());
@@ -47,8 +52,8 @@ public class Post implements Comparable<Post> {
         return boardId;
     }
 
-    public Integer getMemberId() {
-        return memberId;
+    public Integer getAuthorId() {
+        return authorId;
     }
 
     public Integer getId() {
@@ -73,18 +78,6 @@ public class Post implements Comparable<Post> {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
     }
 
     @Override

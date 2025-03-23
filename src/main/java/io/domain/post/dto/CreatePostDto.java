@@ -32,7 +32,6 @@ public class CreatePostDto {
         return content;
     }
 
-    // 정적 팩토리 메서드
     public static CreatePostDto of(String boardId, Integer authorId, String title, String content) {
         return new CreatePostDto(boardId, authorId, title, content);
     }

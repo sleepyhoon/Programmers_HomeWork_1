@@ -1,13 +1,20 @@
 package io.global.auth;
 
+import io.domain.member.role.Role;
+
 public class Session {
     private final Integer currentMemberId;
-
-    public Session(Integer currentMemberId) {
+    private final Role role;
+    public Session(Integer currentMemberId, Role role) {
         this.currentMemberId = currentMemberId;
+        this.role = role;
     }
 
-    protected Integer getCurrentMemberId() {
+    public Integer getCurrentMemberId() {
         return this.currentMemberId;
+    }
+
+    public boolean isAdmin() {
+        return this.role.equals(Role.ADMIN);
     }
 }

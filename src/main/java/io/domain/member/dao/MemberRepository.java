@@ -18,11 +18,11 @@ public class MemberRepository {
         return Optional.ofNullable(memberHashMap.get(userId));
     }
 
-    public Optional<Integer> getIdByUsername(String username) {
+    public Optional<Member> getMemberByUsername(String username) {
         Collection<Member> values = memberHashMap.values();
         for (Member member : values) {
             if(member.getUsername().equals(username)) {
-                return Optional.of(member.getId());
+                return Optional.of(member);
             }
         }
         return Optional.empty();
@@ -35,16 +35,6 @@ public class MemberRepository {
 
     public boolean isExistId(Integer userId) {
         return memberHashMap.containsKey(userId);
-    }
-
-    public boolean isCorrectDetail(String username, String password) {
-        Collection<Member> values = memberHashMap.values();
-        for (Member member : values) {
-            if(member.isUserInputCorrect(username,password)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void update(Member member) {

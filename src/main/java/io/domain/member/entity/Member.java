@@ -2,6 +2,7 @@ package io.domain.member.entity;
 
 import io.domain.member.dto.CreateMemberDto;
 import io.domain.member.dto.UpdateMemberDto;
+import io.domain.member.role.Role;
 import java.time.LocalDateTime;
 
 public class Member {
@@ -10,14 +11,16 @@ public class Member {
     private String password;
     private String nickname;
     private String email;
-    private LocalDateTime created;
+    private Role role;
 
-    private Member(String username, String password, String nickname, String email) {
+    private LocalDateTime created;
+    private Member(String username, String password, String nickname, String email, Role role) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
         this.created = LocalDateTime.now();
+        this.role = role;
     }
 
     public String getUsername() {
@@ -40,16 +43,12 @@ public class Member {
         return id;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    private void setPassword(String password) {
-        this.password = password;
-    }
-
-    private void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean isUserInputCorrect(String username, String password) {
@@ -62,6 +61,10 @@ public class Member {
     }
 
     public static Member of(CreateMemberDto dto) {
-        return new Member(dto.getUsername(), dto.getPassword(), dto.getNickname(), dto.getEmail());
+        return new Member(dto.getUsername(), dto.getPassword(), dto.getNickname(), dto.getEmail(), Role.MEMBER);
+    }
+
+    public static Member ofAdmin() {
+        return new Member("admin", "admin1234", "admin", "example@gmail.com", Role.ADMIN);
     }
 }

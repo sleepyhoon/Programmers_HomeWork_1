@@ -15,6 +15,8 @@ public class OutputView {
     private static final String SIGNOUT_RESULT_SUCCESS = "성공적으로 로그아웃했습니다!";
     private static final String MEMBER_UPDATE_SUCCESS = "성공적으로 수정했습니다!";
     private static final String MEMBER_DELETE_SUCCESS = "성공적으로 삭제했습니다!";
+
+    private static final String LOGIN_REQUIRED_MESSAGE = "로그인을 먼저 하세요.";
     private static final String INVALID_INPUT = "잘못된 입력입니다.";
     private static final String TERMINATE_PROGRAM = "프로그램을 종료합니다.";
 
@@ -71,6 +73,10 @@ public class OutputView {
 
     public static void showMemberNotFound() {
         System.out.println(SIGNIN_RESULT_FAILURE);
+    }
+
+    public static void showLoginRequiredMessage() {
+        System.out.println(LOGIN_REQUIRED_MESSAGE);
     }
 
     public static void showInvalidCommand() {

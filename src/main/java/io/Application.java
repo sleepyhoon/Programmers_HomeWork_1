@@ -7,6 +7,7 @@ import io.domain.member.dto.CreateMemberDto;
 import io.domain.member.dto.UpdateMemberDto;
 import io.domain.view.InputView;
 import io.domain.view.OutputView;
+import io.global.auth.Session;
 import io.global.util.UserRequest;
 
 public class Application {
@@ -41,17 +42,31 @@ public class Application {
                     switch (target) {
                         case "add" -> {
                             parameter = userRequest.getValue("boardId", String.class);
-                            Integer currentMemberId = userRequest.getCurrentMemberId();
-                            OutputView.showCreateResult(postController.create(parameter,currentMemberId));
+                            Session session = userRequest.getSession();
+                            if (session == null || session.getCurrentMemberId() == null) {
+                                OutputView.showLoginRequiredMessage();
+                                break;
+                            }
+                            OutputView.showCreateResult(postController.create(parameter,session));
                         }
                         case "edit" -> {
                             parameter = userRequest.getValue("postId", String.class);
+                            Session session = userRequest.getSession();
+                            if (session == null || session.getCurrentMemberId() == null) {
+                                OutputView.showLoginRequiredMessage();
+                                break;
+                            }
                             OutputView.startUpdate(parameter);
-                            OutputView.showUpdateResult(postController.update(parameter));
+                            OutputView.showUpdateResult(postController.update(parameter,session));
                         }
                         case "remove" -> {
                             parameter = userRequest.getValue("postId", String.class);
-                            OutputView.showDeleteResult(postController.delete(parameter));
+                            Session session = userRequest.getSession();
+                            if (session == null || session.getCurrentMemberId() == null) {
+                                OutputView.showLoginRequiredMessage();
+                                break;
+                            }
+                            OutputView.showDeleteResult(postController.delete(parameter,session));
                         }
                         case "view" -> {
                             parameter = userRequest.getValue("postId", String.class);
@@ -63,11 +78,10 @@ public class Application {
                     switch (target) {
                         case "view" -> {
                             parameter = userRequest.getValue("boardName", String.class);
-                            OutputView.showAllPosts(boardController.selectAllPosts(parameter));
+                            OutputView.showAllPosts(boardController.selectAllPosts(userRequest.getSession(), parameter));
                         }
                         case "add" -> {
-                            Integer currentMemberId = userRequest.getCurrentMemberId();
-                            OutputView.showCreateResult(boardController.create(currentMemberId));
+                            OutputView.showCreateResult(boardController.create(userRequest.getSession()));
                         }
                         case "edit" -> {
                             parameter = userRequest.getValue("boardId", String.class);
@@ -92,14 +106,14 @@ public class Application {
                         case "signin" -> {
                             String username = InputView.getUsername();
                             String userPassword = InputView.getUserPassword();
-                            if (memberController.signIn(username, userPassword)) {
+                            if (memberController.signIn(userRequest.getSession(), username, userPassword)) {
                                 OutputView.showSignInResult();
                             } else {
                                 OutputView.showMemberNotFound();
                             }
                         }
                         case "signout" -> {
-                            memberController.signOut();
+                            memberController.signOut(userRequest.getSession());
                             OutputView.showSignOutResult();
                         }
                         case "detail" -> {

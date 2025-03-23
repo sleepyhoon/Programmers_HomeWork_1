@@ -26,4 +26,9 @@ public abstract class AppConfig {
     public static Application getApplication() {
         return application;
     }
+
+    // 관리자 계정 프로그램 시작하자마자 생성하기
+    static {
+        memberService.adminSignUp();
+    }
 }

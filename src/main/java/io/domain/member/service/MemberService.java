@@ -22,11 +22,11 @@ public class MemberService {
     }
 
     public boolean signIn(String username, String password) {
-        Integer memberId = memberRepository.getIdByUsername(username).orElseThrow(
+        Member findMember = memberRepository.getMemberByUsername(username).orElseThrow(
                 () -> new NoSuchMemberException("해당 username을 가진 멤버가 없습니다.")
         );
-        if(memberRepository.isCorrectDetail(username,password)){
-            SessionContext.signIn(memberId);
+        if(findMember.isUserInputCorrect(username,password)){
+            SessionContext.signIn(findMember.getId(),findMember.getRole());
             return true;
         } else {
             return false;
@@ -59,5 +59,10 @@ public class MemberService {
             throw new NoSuchMemberException("해당 id를 가진 멤버가 없습니다.");
         }
         memberRepository.remove(id);
+    }
+
+    public void adminSignUp() {
+        Member admin = Member.ofAdmin();
+        memberRepository.save(admin);
     }
 }
