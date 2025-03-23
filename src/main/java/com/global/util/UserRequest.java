@@ -1,14 +1,17 @@
 package com.global.util;
 
+import com.global.auth.SessionContext;
 import java.util.Map;
 
 public class UserRequest {
-    private URLParser parser;
-    private Map<String,Object> parameters;
+    private final URLParser parser;
+    private final Map<String,Object> parameters;
+    private final Integer currentMemberId;
 
     public UserRequest(String url) {
         this.parser = new URLParser(url);
         this.parameters = this.parser.getParameters();
+        this.currentMemberId = SessionContext.getCurrentMemberId();
     }
 
     public boolean isValid() {
@@ -35,5 +38,13 @@ public class UserRequest {
 
     public String getControllerCode() {
         return this.parser.getControllerCode();
+    }
+
+    public boolean isSignedIn() {
+        return currentMemberId != -1;
+    }
+
+    public Integer getCurrentMemberId() {
+        return currentMemberId;
     }
 }

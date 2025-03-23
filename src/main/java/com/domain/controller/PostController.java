@@ -15,10 +15,10 @@ public class PostController {
         this.postService = postService;
     }
 
-    public Integer create(String boardId) {
+    public Integer create(String boardId, Integer authorId) {
         String userPostTitle = InputView.getUserTitle();
         String userPostContent = InputView.getUserContent();
-        return postService.create(CreatePostDto.of(boardId, userPostTitle, userPostContent));
+        return postService.create(CreatePostDto.of(boardId, authorId, userPostTitle, userPostContent));
     }
 
     public ResponsePostDto select(String userSelectId) {

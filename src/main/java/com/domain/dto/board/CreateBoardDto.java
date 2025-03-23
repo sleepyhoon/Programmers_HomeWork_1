@@ -1,12 +1,18 @@
 package com.domain.dto.board;
 
 public class CreateBoardDto {
+    private Integer authorId;
     private String title;
     private String content;
 
-    private CreateBoardDto(String title, String content) {
+    private CreateBoardDto(Integer authorId, String title, String content) {
+        this.authorId = authorId;
         this.title = title;
         this.content = content;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
     }
 
     public String getTitle() {
@@ -17,7 +23,7 @@ public class CreateBoardDto {
         return content;
     }
 
-    public static CreateBoardDto of(String title, String content) {
-        return new CreateBoardDto(title,content);
+    public static CreateBoardDto of(Integer authorId, String title, String content) {
+        return new CreateBoardDto(authorId, title, content);
     }
 }

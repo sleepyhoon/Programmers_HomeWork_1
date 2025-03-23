@@ -26,11 +26,11 @@ public class PostService {
         this.memberRepository = memberRepository;
     }
 
+    // board 객체에 post을 추가하는 것은 컨트롤러에서 구현하는게 좋다고 함. 역할 분리를 구현해보자.
     public Integer create(CreatePostDto createPostDto) {
-        Integer currentUserId = SessionContext.getCurrentMemberId();
-        Post post = Post.of(createPostDto, currentUserId);
+        Post post = Post.of(createPostDto);
         postRepository.save(post);
-        Board board = boardRepository.getBoard(createPostDto.getBoardId());
+        Board board = boardRepository.getBoardById(createPostDto.getBoardId());
         board.addPost(post);
         boardRepository.save(board);
         return post.getId();

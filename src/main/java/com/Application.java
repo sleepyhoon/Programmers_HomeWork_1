@@ -41,7 +41,8 @@ public class Application {
                     switch (target) {
                         case "add" -> {
                             parameter = userRequest.getValue("boardId", String.class);
-                            OutputView.showCreateResult(postController.create(parameter));
+                            Integer currentMemberId = userRequest.getCurrentMemberId();
+                            OutputView.showCreateResult(postController.create(parameter,currentMemberId));
                         }
                         case "edit" -> {
                             parameter = userRequest.getValue("postId", String.class);
@@ -64,7 +65,10 @@ public class Application {
                             parameter = userRequest.getValue("boardName", String.class);
                             OutputView.showAllPosts(boardController.selectAllPosts(parameter));
                         }
-                        case "add" -> OutputView.showCreateResult(boardController.create());
+                        case "add" -> {
+                            Integer currentMemberId = userRequest.getCurrentMemberId();
+                            OutputView.showCreateResult(boardController.create(currentMemberId));
+                        }
                         case "edit" -> {
                             parameter = userRequest.getValue("boardId", String.class);
                             OutputView.showUpdateResult(boardController.update(parameter));

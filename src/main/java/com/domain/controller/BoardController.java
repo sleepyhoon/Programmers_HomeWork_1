@@ -14,10 +14,10 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    public Integer create() {
+    public Integer create(Integer authorId) {
         String userTitle = InputView.getUserTitle();
         String userContent = InputView.getUserContent();
-        return boardService.create(CreateBoardDto.of(userTitle,userContent));
+        return boardService.create(CreateBoardDto.of(authorId,userTitle,userContent));
     }
 
     public List<ResponsePostDto> selectAllPosts(String boardName) {

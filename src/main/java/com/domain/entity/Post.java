@@ -35,8 +35,8 @@ public class Post implements Comparable<Post> {
     }
 
     // id는 레포지토리에서 배정할 것이기 때문에 null로 선언한다.
-    public static Post of(CreatePostDto postDto, Integer currentMemberId) {
-        return new Post(null, postDto.getBoardId(), currentMemberId, postDto.getTitle(), postDto.getContent());
+    public static Post of(CreatePostDto postDto) {
+        return new Post(null, postDto.getBoardId(), postDto.getAuthorId(), postDto.getTitle(), postDto.getContent());
     }
 
     public static Post of(UpdatePostDto updatePostDto, Integer boardId, LocalDateTime created) {
@@ -59,6 +59,18 @@ public class Post implements Comparable<Post> {
         return title;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -71,6 +83,10 @@ public class Post implements Comparable<Post> {
         this.content = content;
     }
 
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -80,25 +96,9 @@ public class Post implements Comparable<Post> {
         return Objects.equals(id, post.id);
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public LocalDateTime getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    public String getContent() {
-        return content;
     }
 
     @Override

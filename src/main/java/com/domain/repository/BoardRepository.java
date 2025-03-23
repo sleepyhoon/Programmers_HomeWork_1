@@ -39,7 +39,7 @@ public class BoardRepository {
         return keySet.contains(boardId);
     }
 
-    public Board getBoard(Integer id) {
-        return boardHashMap.get(id);
+    public Board getBoardById(Integer boardId) {
+        return boardHashMap.get(boardId);
     }
 }

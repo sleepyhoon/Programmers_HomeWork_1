@@ -8,16 +8,24 @@ import java.util.Objects;
 
 public class Board {
     private Integer id;
+    private Integer authorId;
     private String title;
-
     private String content;
 
     private List<Post> posts;
+
+    private Board(Integer id, Integer authorId, String title, String content) {
+        this.id = id;
+        this.authorId = authorId;
+        this.title = title;
+        this.content = content;
+        this.posts = new ArrayList<>();
+    }
+
     private Board(Integer id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.posts = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -30,6 +38,10 @@ public class Board {
 
     public String getTitle() {
         return title;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
     }
 
     public String getContent() {
@@ -51,13 +63,13 @@ public class Board {
     public void addPost(Post post) {
         posts.add(post);
     }
-    // 처음 만들 때는 레포지토리에서 직접 id를 주입받는다.
+
     public static Board of(CreateBoardDto dto) {
-        return new Board(null, dto.getTitle(), dto.getContent());
+        return new Board(null, dto.getAuthorId(), dto.getTitle(), dto.getContent());
     }
 
     public static Board of(UpdateBoardDto dto) {
-        return new Board(dto.getId(),dto.getTitle(),dto.getContent());
+        return new Board(dto.getId(), dto.getTitle(), dto.getContent());
     }
 
     @Override

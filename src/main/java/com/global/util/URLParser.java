@@ -10,7 +10,7 @@ import java.util.Map;
     여기서 유효성 검사?
  */
 public class URLParser {
-    private String URL;
+    private final String URL;
     private String controllerCode;
     private String target;
 
