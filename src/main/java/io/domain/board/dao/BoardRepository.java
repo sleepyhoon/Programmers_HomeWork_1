@@ -5,6 +5,7 @@ import io.domain.post.entity.Post;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class BoardRepository {
@@ -39,7 +40,7 @@ public class BoardRepository {
         return keySet.contains(boardId);
     }
 
-    public Board getBoardById(Integer boardId) {
-        return boardHashMap.get(boardId);
+    public Optional<Board> getBoardById(Integer boardId) {
+        return Optional.of(boardHashMap.get(boardId));
     }
 }
