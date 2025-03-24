@@ -14,8 +14,20 @@ public class MemberRepository {
         memberHashMap.put(mapIndex++,member);
     }
 
+    public void update(Member member) {
+        memberHashMap.put(member.getId(), member);
+    }
+
+    public void remove(Integer userId) {
+        memberHashMap.remove(userId);
+    }
+
     public Optional<Member> getById(Integer userId) {
         return Optional.ofNullable(memberHashMap.get(userId));
+    }
+
+    public boolean isExistId(Integer userId) {
+        return memberHashMap.containsKey(userId);
     }
 
     public Optional<Member> getMemberByUsername(String username) {
@@ -31,17 +43,5 @@ public class MemberRepository {
     public Optional<String> getUsernameById(Integer memberId) {
         Member member = memberHashMap.get(memberId);
         return Optional.of(member.getUsername());
-    }
-
-    public boolean isExistId(Integer userId) {
-        return memberHashMap.containsKey(userId);
-    }
-
-    public void update(Member member) {
-        memberHashMap.put(member.getId(), member);
-    }
-
-    public void remove(Integer userId) {
-        memberHashMap.remove(userId);
     }
 }

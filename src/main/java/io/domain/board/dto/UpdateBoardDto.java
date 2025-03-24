@@ -8,8 +8,8 @@ public class UpdateBoardDto {
     private final String content;
 
     // private 생성자
-    private UpdateBoardDto(String id, String title, String content) {
-        this.id = Integer.valueOf(id);
+    private UpdateBoardDto(Integer id, String title, String content) {
+        this.id = Objects.requireNonNull(id);
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
     }
@@ -27,7 +27,7 @@ public class UpdateBoardDto {
     }
 
     // 정적 팩토리 메서드
-    public static UpdateBoardDto of(String id, String title, String content) {
+    public static UpdateBoardDto of(Integer id, String title, String content) {
         return new UpdateBoardDto(id, title, content);
     }
 }

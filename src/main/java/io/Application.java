@@ -37,11 +37,11 @@ public class Application {
                 }
                 String controllerCode = userRequest.getControllerCode();
                 String target = userRequest.getTarget();
-                String parameter = "";
+                Integer parameter;
                 if (controllerCode.equals("posts")) {
                     switch (target) {
                         case "add" -> {
-                            parameter = userRequest.getValue("boardId", String.class);
+                            parameter = userRequest.getValue("boardId", Integer.class);
                             Session session = userRequest.getSession();
                             if (session == null || session.getCurrentMemberId() == null) {
                                 OutputView.showLoginRequiredMessage();
@@ -50,7 +50,7 @@ public class Application {
                             OutputView.showCreateResult(postController.create(parameter,session));
                         }
                         case "edit" -> {
-                            parameter = userRequest.getValue("postId", String.class);
+                            parameter = userRequest.getValue("postId", Integer.class);
                             Session session = userRequest.getSession();
                             if (session == null || session.getCurrentMemberId() == null) {
                                 OutputView.showLoginRequiredMessage();
@@ -60,16 +60,15 @@ public class Application {
                             OutputView.showUpdateResult(postController.update(parameter,session));
                         }
                         case "remove" -> {
-                            parameter = userRequest.getValue("postId", String.class);
                             Session session = userRequest.getSession();
                             if (session == null || session.getCurrentMemberId() == null) {
                                 OutputView.showLoginRequiredMessage();
                                 break;
                             }
-                            OutputView.showDeleteResult(postController.delete(parameter,session));
+                            OutputView.showDeleteResult(postController.delete(session));
                         }
                         case "view" -> {
-                            parameter = userRequest.getValue("postId", String.class);
+                            parameter = userRequest.getValue("postId", Integer.class);
                             OutputView.showPost(postController.select(parameter));
                         }
                         default -> OutputView.showInvalidCommand();
@@ -77,19 +76,21 @@ public class Application {
                 } else if (controllerCode.equals("boards")) {
                     switch (target) {
                         case "view" -> {
-                            parameter = userRequest.getValue("boardName", String.class);
-                            OutputView.showAllPosts(boardController.selectAllPosts(userRequest.getSession(), parameter));
+                            String boardName = userRequest.getValue("boardName", String.class);
+                            OutputView.showAllPosts(boardController.selectAllPosts(userRequest.getSession(), boardName));
                         }
                         case "add" -> {
                             OutputView.showCreateResult(boardController.create(userRequest.getSession()));
                         }
                         case "edit" -> {
-                            parameter = userRequest.getValue("boardId", String.class);
-                            OutputView.showUpdateResult(boardController.update(parameter));
+                            parameter = userRequest.getValue("boardId", Integer.class);
+                            boardController.update(parameter);
+                            OutputView.showUpdateResult(parameter);
                         }
                         case "remove" -> {
-                            parameter = userRequest.getValue("boardId", String.class);
-                            OutputView.showDeleteResult(boardController.delete(parameter));
+                            parameter = userRequest.getValue("boardId", Integer.class);
+                            boardController.delete(parameter);
+                            OutputView.showDeleteResult(parameter);
                         }
                         default -> OutputView.showInvalidCommand();
                     }
@@ -117,18 +118,18 @@ public class Application {
                             OutputView.showSignOutResult();
                         }
                         case "detail" -> {
-                            parameter = userRequest.getValue("accountId", String.class);
+                            parameter = userRequest.getValue("accountId", Integer.class);
                             OutputView.showMemberDetail(memberController.detail(parameter));
                         }
                         case "edit" -> {
-                            parameter = userRequest.getValue("accountId", String.class);
+                            parameter = userRequest.getValue("accountId", Integer.class);
                             String userPassword = InputView.getUserPassword();
                             String userEmail = InputView.getUserEmail();
                             memberController.edit(UpdateMemberDto.of(parameter, userPassword, userEmail));
                             OutputView.showMemberUpdateResult();
                         }
                         case "remove" -> {
-                            parameter = userRequest.getValue("accountId", String.class);
+                            parameter = userRequest.getValue("accountId", Integer.class);
                             memberController.remove(parameter);
                             OutputView.showMemberDeleteResult();
                         }

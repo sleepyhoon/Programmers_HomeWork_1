@@ -9,8 +9,8 @@ public class CreatePostDto {
     private final String content;
 
     // private 생성자
-    private CreatePostDto(String boardId, Integer authorId, String title, String content) {
-        this.boardId = Integer.valueOf(boardId);
+    private CreatePostDto(Integer boardId, Integer authorId, String title, String content) {
+        this.boardId = boardId;
         this.authorId = authorId;
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
@@ -32,7 +32,7 @@ public class CreatePostDto {
         return content;
     }
 
-    public static CreatePostDto of(String boardId, Integer authorId, String title, String content) {
+    public static CreatePostDto of(Integer boardId, Integer authorId, String title, String content) {
         return new CreatePostDto(boardId, authorId, title, content);
     }
 }

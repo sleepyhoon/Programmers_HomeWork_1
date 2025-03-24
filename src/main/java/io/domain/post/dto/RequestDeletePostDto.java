@@ -3,19 +3,17 @@ package io.domain.post.dto;
 import io.global.auth.Session;
 
 public class RequestDeletePostDto {
-    private final Integer id;
     private final Session session;
 
-    private RequestDeletePostDto(String id, Session session) {
-        this.id = Integer.valueOf(id);
+    private RequestDeletePostDto(Session session) {
         this.session = session;
     }
 
-    public Integer getId() {
-        return id;
+    public Session getSession() {
+        return session;
     }
 
-    public static RequestDeletePostDto from(String postId, Session session) {
-        return new RequestDeletePostDto(postId, session);
+    public static RequestDeletePostDto from(Session session) {
+        return new RequestDeletePostDto(session);
     }
 }

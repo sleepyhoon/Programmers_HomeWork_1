@@ -10,8 +10,8 @@ public class UpdatePostDto {
     private final String content;
 
     // private 생성자
-    private UpdatePostDto(String id, Session session, String title, String content) {
-        this.id = Integer.valueOf(id);
+    private UpdatePostDto(Integer id, Session session, String title, String content) {
+        this.id = id;
         this.session = session;
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
@@ -34,7 +34,7 @@ public class UpdatePostDto {
     }
 
     // 정적 팩토리 메서드
-    public static UpdatePostDto of(String id, String title, String content, Session session) {
+    public static UpdatePostDto of(Integer id, String title, String content, Session session) {
         return new UpdatePostDto(id, session, title, content);
     }
 }

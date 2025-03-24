@@ -64,15 +64,18 @@ public class PostService {
         return post.getId();
     }
 
-    public void delete(RequestDeletePostDto requestDeletePostDto) {
-        if (!postRepository.contains(requestDeletePostDto.getId())) {
-            throw new NoSuchPostException(requestDeletePostDto.getId() + "번 게시글은 존재하지 않습니다.");
+    public Integer delete(RequestDeletePostDto requestDeletePostDto) {
+        Session session = requestDeletePostDto.getSession();
+        Integer currentMemberId = session.getCurrentMemberId();
+        if (!postRepository.contains(currentMemberId)) {
+            throw new NoSuchPostException(currentMemberId + "번 게시글은 존재하지 않습니다.");
         }
-        Post post = postRepository.get(requestDeletePostDto.getId());
-        if(!post.getAuthorId().equals(requestDeletePostDto.getId())) {
+        Post post = postRepository.get(currentMemberId);
+        if(!post.getAuthorId().equals(currentMemberId)) {
             throw new UnauthorizedAccessException("본인이 작성한 게시글이 아닙니다");
         }
 
-        postRepository.delete(requestDeletePostDto.getId());
+        postRepository.delete(currentMemberId);
+        return currentMemberId;
     }
 }

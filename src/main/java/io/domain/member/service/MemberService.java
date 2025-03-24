@@ -37,9 +37,8 @@ public class MemberService {
         SessionContext.signOut();
     }
 
-    public ResponseMemberDetail detail(String userId) {
-        Integer id = Integer.parseInt(userId);
-        Member member = memberRepository.getById(id).orElseThrow(
+    public ResponseMemberDetail detail(Integer userId) {
+        Member member = memberRepository.getById(userId).orElseThrow(
                 () -> new NoSuchMemberException("해당 id를 가진 멤버가 없습니다.")
         );
         return ResponseMemberDetail.from(member);
@@ -53,12 +52,11 @@ public class MemberService {
         memberRepository.update(member);
     }
 
-    public void remove(String userId) {
-        Integer id = Integer.parseInt(userId);
-        if(!memberRepository.isExistId(id)) {
+    public void remove(Integer userId) {
+        if(!memberRepository.isExistId(userId)) {
             throw new NoSuchMemberException("해당 id를 가진 멤버가 없습니다.");
         }
-        memberRepository.remove(id);
+        memberRepository.remove(userId);
     }
 
     public void adminSignUp() {

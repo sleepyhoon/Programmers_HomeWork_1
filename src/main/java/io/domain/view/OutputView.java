@@ -44,7 +44,7 @@ public class OutputView {
         System.out.println(SIGNOUT_RESULT_SUCCESS);
     }
 
-    public static void startUpdate(String postId) {
+    public static void startUpdate(Integer postId) {
         System.out.println(postId + UPDATE_START);
     }
 

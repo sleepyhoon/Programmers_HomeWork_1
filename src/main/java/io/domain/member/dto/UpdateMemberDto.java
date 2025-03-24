@@ -5,7 +5,7 @@ public record UpdateMemberDto(
         String password,
         String email
 ) {
-    public static UpdateMemberDto of(String id, String password, String email) {
-        return new UpdateMemberDto(Integer.parseInt(id), password, email);
+    public static UpdateMemberDto of(Integer id, String password, String email) {
+        return new UpdateMemberDto(id, password, email);
     }
 }

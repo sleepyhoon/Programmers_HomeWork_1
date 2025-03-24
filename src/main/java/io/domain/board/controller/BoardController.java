@@ -29,17 +29,14 @@ public class BoardController {
         return boardService.selectAllPosts(session, boardName);
     }
 
-    public Integer delete(String boardId) {
-        Integer id = Integer.valueOf(boardId);
-        boardService.delete(id);
-        return id;
+    public void delete(Integer boardId) {
+        boardService.delete(boardId);
     }
 
-    public Integer update(String boardId) {
+    public void update(Integer boardId) {
         String userBoardTitle = InputView.getUserTitle();
         String userBoardContent = InputView.getUserContent();
         boardService.update(UpdateBoardDto.of(boardId, userBoardTitle, userBoardContent));
-        return Integer.valueOf(boardId);
     }
 
 }

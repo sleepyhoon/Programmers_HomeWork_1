@@ -33,7 +33,7 @@ public class MemberController {
         memberService.signOut();
     }
 
-    public ResponseMemberDetail detail(String userId) {
+    public ResponseMemberDetail detail(Integer userId) {
         return memberService.detail(userId);
     }
 
@@ -41,7 +41,7 @@ public class MemberController {
         memberService.edit(memberDto);
     }
 
-    public void remove(String userId) {
+    public void remove(Integer userId) {
         memberService.remove(userId);
     }
 }
