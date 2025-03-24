@@ -1,5 +1,6 @@
 package io;
 
+import io.domain.Controller;
 import io.domain.board.controller.BoardController;
 import io.domain.member.controller.MemberController;
 import io.domain.post.controller.PostController;
@@ -36,140 +37,11 @@ public class Application {
                     OutputView.showInvalidCommand();
                     continue;
                 }
-                String controllerCode = userRequest.getControllerCode();
-                String target = userRequest.getTarget();
-                Integer parameter;
-                if (controllerCode.equals("posts")) {
-                    switch (target) {
-                        case "add" -> {
-                            if (userRequest.hasParam("boardId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("boardId", Integer.class);
-                            Session session = userRequest.getSession();
-                            if (session == null || session.getCurrentMemberId() == null) {
-                                OutputView.showLoginRequiredMessage();
-                                break;
-                            }
-                            OutputView.showCreateResult(postController.create(parameter, session));
-                        }
-                        case "edit" -> {
-                            if (userRequest.hasParam("postId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("postId", Integer.class);
-                            Session session = userRequest.getSession();
-                            if (session == null || session.getCurrentMemberId() == null) {
-                                OutputView.showLoginRequiredMessage();
-                                break;
-                            }
-                            OutputView.startUpdate(parameter);
-                            OutputView.showUpdateResult(postController.update(parameter, session));
-                        }
-                        case "remove" -> {
-                            if (userRequest.hasParam("postId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("postId", Integer.class);
-
-                            Session session = userRequest.getSession();
-                            if (session == null || session.getCurrentMemberId() == null) {
-                                OutputView.showLoginRequiredMessage();
-                                break;
-                            }
-
-                            OutputView.showDeleteResult(postController.delete(session, parameter));
-                        }
-                        case "view" -> {
-                            if (userRequest.hasParam("postId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("postId", Integer.class);
-                            OutputView.showPost(postController.select(parameter));
-                        }
-                        default -> OutputView.showInvalidCommand();
-                    }
-                } else if (controllerCode.equals("boards")) {
-                    switch (target) {
-                        case "view" -> {
-                            if (userRequest.hasParam("boardName")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            String boardName = userRequest.getValue("boardName", String.class);
-                            OutputView.showAllPosts(
-                                    boardController.selectAllPosts(userRequest.getSession(), boardName));
-                        }
-                        case "add" -> {
-                            OutputView.showCreateResult(boardController.create(userRequest.getSession()));
-                        }
-                        case "edit" -> {
-                            if (userRequest.hasParam("boardId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("boardId", Integer.class);
-                            boardController.update(parameter);
-                            OutputView.showUpdateResult(parameter);
-                        }
-                        case "remove" -> {
-                            if (userRequest.hasParam("boardId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("boardId", Integer.class);
-                            boardController.delete(parameter);
-                            OutputView.showDeleteResult(parameter);
-                        }
-                        default -> OutputView.showInvalidCommand();
-                    }
-                } else if (controllerCode.equals("accounts")) {
-                    switch (target) {
-                        case "signup" -> {
-                            String username = InputView.getUsername();
-                            String password = InputView.getUserPassword();
-                            String nickname = InputView.getUserNickName();
-                            String email = InputView.getUserEmail();
-                            OutputView.showSignUpResult(
-                                    memberController.signUp(CreateMemberDto.of(username, password, nickname, email)));
-                        }
-                        case "signin" -> {
-                            String username = InputView.getUsername();
-                            String userPassword = InputView.getUserPassword();
-                            if (memberController.signIn(userRequest.getSession(), username, userPassword)) {
-                                OutputView.showSignInResult();
-                            } else {
-                                OutputView.showMemberNotFound();
-                            }
-                        }
-                        case "signout" -> {
-                            memberController.signOut(userRequest.getSession());
-                            OutputView.showSignOutResult();
-                        }
-                        case "detail" -> {
-                            if (userRequest.hasParam("accountId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("accountId", Integer.class);
-                            OutputView.showMemberDetail(memberController.detail(parameter));
-                        }
-                        case "edit" -> {
-                            if (userRequest.hasParam("accountId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("accountId", Integer.class);
-                            String userPassword = InputView.getUserPassword();
-                            String userEmail = InputView.getUserEmail();
-                            memberController.edit(UpdateMemberDto.of(parameter, userPassword, userEmail));
-                            OutputView.showMemberUpdateResult();
-                        }
-                        case "remove" -> {
-                            if (userRequest.hasParam("accountId")) {
-                                System.out.println("[400] 잘못된 요청입니다.");
-                            }
-                            parameter = userRequest.getValue("accountId", Integer.class);
-                            memberController.remove(parameter);
-                            OutputView.showMemberDeleteResult();
-                        }
-                        default -> OutputView.showInvalidCommand();
-                    }
+                Controller controller = getController(userRequest.getControllerCode());
+                if(controller == null) {
+                    System.out.println("[400] 잘못된 요청입니다.");
+                } else {
+                    controller.requestHandle(userRequest);
                 }
             } catch (NullPointerException e) {
                 System.out.println("[404] 찾으시는 것이 없습니다.");
@@ -180,6 +52,23 @@ public class Application {
             } catch (RuntimeException e) {
                 System.out.println("[400] 잘못된 요청입니다.");
                 e.getStackTrace();
+            }
+        }
+    }
+
+    private Controller getController(String controllerCode) {
+        switch (controllerCode) {
+            case "posts" -> {
+                return postController;
+            }
+            case "boards" -> {
+                return boardController;
+            }
+            case "accounts" -> {
+                return memberController;
+            }
+            default -> {
+                return null;
             }
         }
     }

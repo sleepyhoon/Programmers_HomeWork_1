@@ -6,7 +6,6 @@ import io.domain.post.dto.RequestSelectPostDto;
 import io.domain.post.dto.ResponsePostDto;
 import io.domain.post.dto.UpdatePostDto;
 import io.domain.post.entity.Post;
-import io.domain.board.dao.BoardRepository;
 import io.domain.member.dao.MemberRepository;
 import io.domain.post.dao.PostRepository;
 import io.global.auth.Session;
@@ -16,17 +15,14 @@ import io.global.exception.UnauthorizedAccessException;
 
 public class PostService {
     private final PostRepository postRepository;
-    private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    public PostService(PostRepository postRepository, BoardRepository boardRepository,
+    public PostService(PostRepository postRepository,
                        MemberRepository memberRepository) {
         this.postRepository = postRepository;
-        this.boardRepository = boardRepository;
         this.memberRepository = memberRepository;
     }
 
-    // board 객체에 post을 추가하는 것은 컨트롤러에서 구현하는게 좋다고 함. 역할 분리를 구현해보자.
     public Post create(CreatePostDto createPostDto) {
         Post post = Post.of(createPostDto);
         postRepository.save(post);
@@ -42,7 +38,7 @@ public class PostService {
         String username = memberRepository.getUsernameById(post.getAuthorId()).orElseThrow(
                 () -> new NotFoundMemberException(post.getAuthorId() + "번 유저가 없습니다.")
         );
-        return ResponsePostDto.of(post,username);
+        return ResponsePostDto.of(post, username);
     }
 
     public Integer update(UpdatePostDto updatePostDto) {
@@ -51,7 +47,7 @@ public class PostService {
         }
         Post post = postRepository.get(updatePostDto.getId());
         Session session = updatePostDto.getSession();
-        if(!session.isAdmin() && !post.getAuthorId().equals(session.getCurrentMemberId())) {
+        if (session.isNotAdmin() && !post.getAuthorId().equals(session.getCurrentMemberId())) {
             throw new UnauthorizedAccessException("본인이 작성한 게시글이 아닙니다");
         }
         post.update(updatePostDto);
@@ -66,7 +62,7 @@ public class PostService {
             throw new NotFoundPostException(currentMemberId + "번 게시글은 존재하지 않습니다.");
         }
         Post post = postRepository.get(currentMemberId);
-        if(!post.getAuthorId().equals(currentMemberId)) {
+        if (session.isNotAdmin() && !post.getAuthorId().equals(currentMemberId)) {
             throw new UnauthorizedAccessException("본인이 작성한 게시글이 아닙니다");
         }
 

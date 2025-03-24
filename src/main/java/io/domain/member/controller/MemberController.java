@@ -1,47 +1,106 @@
 package io.domain.member.controller;
 
+import io.domain.Controller;
 import io.domain.member.dto.CreateMemberDto;
 import io.domain.member.dto.ResponseMemberDetail;
 import io.domain.member.dto.UpdateMemberDto;
 import io.domain.member.service.MemberService;
+import io.domain.view.InputView;
+import io.domain.view.OutputView;
 import io.global.auth.Session;
 import io.global.auth.SessionContext;
 import io.global.exception.DuplicateSignInException;
+import io.global.util.UserRequest;
 
-public class MemberController {
+public class MemberController implements Controller {
     private final MemberService memberService;
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
-    public Integer signUp(CreateMemberDto createMemberDto) {
+    @Override
+    public void requestHandle(UserRequest userRequest) {
+        switch (userRequest.getTarget()) {
+            case "signup" -> {
+                String username = InputView.getUsername();
+                String password = InputView.getUserPassword();
+                String nickname = InputView.getUserNickName();
+                String email = InputView.getUserEmail();
+                OutputView.showSignUpResult(signUp(CreateMemberDto.of(username, password, nickname, email)));
+            }
+            case "signin" -> {
+                String username = InputView.getUsername();
+                String userPassword = InputView.getUserPassword();
+                if (signIn(userRequest.getSession(), username, userPassword)) {
+                    OutputView.showSignInResult();
+                } else {
+                    OutputView.showMemberNotFound();
+                }
+            }
+            case "signout" -> {
+                signOut(userRequest.getSession());
+                OutputView.showSignOutResult();
+            }
+            case "detail" -> {
+                if (!userRequest.hasParam("accountId")) {
+                    System.out.println("[400] 잘못된 요청입니다.");
+                    return;
+                }
+                Integer accountId = userRequest.getValue("accountId", Integer.class);
+                OutputView.showMemberDetail(detail(accountId));
+            }
+            case "edit" -> {
+                if (!userRequest.hasParam("accountId")) {
+                    System.out.println("[400] 잘못된 요청입니다.");
+                    return;
+                }
+                Integer accountId = userRequest.getValue("accountId", Integer.class);
+                String userPassword = InputView.getUserPassword();
+                String userEmail = InputView.getUserEmail();
+                edit(UpdateMemberDto.of(accountId, userPassword, userEmail));
+                OutputView.showMemberUpdateResult();
+            }
+            case "remove" -> {
+                if (!userRequest.hasParam("accountId")) {
+                    System.out.println("[400] 잘못된 요청입니다.");
+                    return;
+                }
+                Integer accountId = userRequest.getValue("accountId", Integer.class);
+                remove(accountId);
+                OutputView.showMemberDeleteResult();
+            }
+            default -> OutputView.showInvalidCommand();
+        }
+    }
+
+    private Integer signUp(CreateMemberDto createMemberDto) {
         return memberService.signUp(createMemberDto);
     }
 
-    public boolean signIn(Session session, String username, String password) {
-        if(session != null) {
+    private boolean signIn(Session session, String username, String password) {
+        if (session != null) {
             throw new DuplicateSignInException("이미 로그인 상태입니다.");
         }
-        return memberService.signIn(username,password);
+        return memberService.signIn(username, password);
     }
 
-    public void signOut(Session session) {
-        if(session == null) {
+    private void signOut(Session session) {
+        if (session == null) {
             throw new DuplicateSignInException("이미 로그아웃 상태입니다.");
         }
         memberService.signOut();
     }
 
-    public ResponseMemberDetail detail(Integer userId) {
+    private ResponseMemberDetail detail(Integer userId) {
         return memberService.detail(userId);
     }
 
-    public void edit(UpdateMemberDto memberDto) {
+    private void edit(UpdateMemberDto memberDto) {
         memberService.edit(memberDto);
     }
 
-    public void remove(Integer userId) {
+    private void remove(Integer userId) {
         memberService.remove(userId);
     }
 }
