@@ -18,7 +18,7 @@ public abstract class AppConfig {
     private static final PostService postService = new PostService(postRepository, memberRepository);
     private static final BoardService boardService = new BoardService(boardRepository, memberRepository);
     private static final MemberService memberService = new MemberService(memberRepository);
-    private static final PostController postController = new PostController(postService, boardService);
+    private static final PostController postController = new PostController(postService, boardService, memberService);
     private static final BoardController boardController = new BoardController(boardService);
     private static final MemberController memberController = new MemberController(memberService);
     private static final Application application = new Application(postController, boardController, memberController);

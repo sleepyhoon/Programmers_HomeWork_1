@@ -34,7 +34,7 @@ public class BoardService {
                     if (session == null) {
                         throw new UnauthenticatedException("로그인을 해야 게시글을 작성할 수 있습니다.");
                     }
-                    String username = memberRepository.getUsernameById(post.getAuthorId()).orElseThrow(
+                    String username = memberRepository.findUsernameById(post.getAuthorId()).orElseThrow(
                             () -> new NotFoundMemberException(post.getAuthorId() + "번 유저가 없습니다.")
                     );
                     return ResponsePostDto.of(post, username);

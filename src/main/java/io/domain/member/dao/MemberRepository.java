@@ -22,7 +22,7 @@ public class MemberRepository {
         memberHashMap.remove(userId);
     }
 
-    public Optional<Member> getById(Integer userId) {
+    public Optional<Member> findById(Integer userId) {
         return Optional.ofNullable(memberHashMap.get(userId));
     }
 
@@ -30,7 +30,7 @@ public class MemberRepository {
         return memberHashMap.containsKey(userId);
     }
 
-    public Optional<Member> getMemberByUsername(String username) {
+    public Optional<Member> findByUsername(String username) {
         Collection<Member> values = memberHashMap.values();
         for (Member member : values) {
             if(member.getUsername().equals(username)) {
@@ -40,7 +40,7 @@ public class MemberRepository {
         return Optional.empty();
     }
 
-    public Optional<String> getUsernameById(Integer memberId) {
+    public Optional<String> findUsernameById(Integer memberId) {
         Member member = memberHashMap.get(memberId);
         return Optional.of(member.getUsername());
     }

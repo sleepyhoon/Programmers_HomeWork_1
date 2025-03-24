@@ -5,6 +5,7 @@ import io.domain.member.dto.ResponseMemberDetail;
 import io.domain.member.dto.UpdateMemberDto;
 import io.domain.member.entity.Member;
 import io.domain.member.dao.MemberRepository;
+import io.domain.post.entity.Post;
 import io.global.auth.SessionContext;
 import io.global.exception.NotFoundMemberException;
 
@@ -22,7 +23,7 @@ public class MemberService {
     }
 
     public boolean signIn(String username, String password) {
-        Member findMember = memberRepository.getMemberByUsername(username).orElseThrow(
+        Member findMember = memberRepository.findByUsername(username).orElseThrow(
                 () -> new NotFoundMemberException("해당 username을 가진 멤버가 없습니다.")
         );
         if(findMember.isUserInputCorrect(username,password)){
@@ -38,14 +39,14 @@ public class MemberService {
     }
 
     public ResponseMemberDetail detail(Integer userId) {
-        Member member = memberRepository.getById(userId).orElseThrow(
+        Member member = memberRepository.findById(userId).orElseThrow(
                 () -> new NotFoundMemberException("해당 id를 가진 멤버가 없습니다.")
         );
         return ResponseMemberDetail.from(member);
     }
 
     public void edit(UpdateMemberDto memberDto) {
-        Member member = memberRepository.getById(memberDto.id()).orElseThrow(
+        Member member = memberRepository.findById(memberDto.id()).orElseThrow(
                 () -> new NotFoundMemberException("해당 id를 가진 멤버가 없습니다.")
         );
         member.update(memberDto);
@@ -62,5 +63,12 @@ public class MemberService {
     public void adminSignUp() {
         Member admin = Member.ofAdmin();
         memberRepository.save(admin);
+    }
+
+    public void addPostToMember(Post post) {
+        Member member = memberRepository.findById(post.getAuthorId()).orElseThrow(
+                () -> new NotFoundMemberException("해당 id를 가진 멤버가 없습니다.")
+        );
+        member.addPost(post);
     }
 }

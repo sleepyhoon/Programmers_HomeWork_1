@@ -3,7 +3,10 @@ package io.domain.member.entity;
 import io.domain.member.dto.CreateMemberDto;
 import io.domain.member.dto.UpdateMemberDto;
 import io.domain.member.role.Role;
+import io.domain.post.entity.Post;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Member {
     private Integer id;
@@ -12,6 +15,7 @@ public class Member {
     private String nickname;
     private String email;
     private Role role;
+    private List<Post> posts;
 
     private LocalDateTime created;
     private Member(String username, String password, String nickname, String email, Role role) {
@@ -21,6 +25,7 @@ public class Member {
         this.email = email;
         this.created = LocalDateTime.now();
         this.role = role;
+        this.posts = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -33,6 +38,10 @@ public class Member {
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
     }
 
     public String getEmail() {
@@ -58,6 +67,10 @@ public class Member {
     public void update(UpdateMemberDto memberDto) {
         this.password = memberDto.password();
         this.email = memberDto.email();
+    }
+
+    public void addPost(Post post) {
+        this.posts.add(post);
     }
 
     public static Member of(CreateMemberDto dto) {

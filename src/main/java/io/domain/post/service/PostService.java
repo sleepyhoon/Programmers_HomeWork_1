@@ -35,7 +35,7 @@ public class PostService {
             throw new NotFoundPostException(postId + "번 게시글은 존재하지 않습니다.");
         }
         Post post = postRepository.get(postId);
-        String username = memberRepository.getUsernameById(post.getAuthorId()).orElseThrow(
+        String username = memberRepository.findUsernameById(post.getAuthorId()).orElseThrow(
                 () -> new NotFoundMemberException(post.getAuthorId() + "번 유저가 없습니다.")
         );
         return ResponsePostDto.of(post, username);

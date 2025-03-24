@@ -2,6 +2,7 @@ package io.domain.post.controller;
 
 import io.domain.Controller;
 import io.domain.board.service.BoardService;
+import io.domain.member.service.MemberService;
 import io.domain.post.dto.CreatePostDto;
 import io.domain.post.dto.RequestDeletePostDto;
 import io.domain.post.dto.RequestSelectPostDto;
@@ -18,10 +19,12 @@ import io.global.util.UserRequest;
 public class PostController implements Controller {
     private final PostService postService;
     private final BoardService boardService;
+    private final MemberService memberService;
 
-    public PostController(PostService postService, BoardService boardService) {
+    public PostController(PostService postService, BoardService boardService, MemberService memberService) {
         this.postService = postService;
         this.boardService = boardService;
+        this.memberService = memberService;
     }
 
     @Override
@@ -84,8 +87,11 @@ public class PostController implements Controller {
         Integer authorId = session.getCurrentMemberId();
         String userPostTitle = InputView.getUserTitle();
         String userPostContent = InputView.getUserContent();
+        // 사실 이렇게 하게 되면 존재하지 않는 boardId로 만들어 버리면 post가 만들어져서 저장되는 문제가 있다. 이거 해결할려면 트랜잭션을 적용해야 되는데..
+        // 순수 자바로는 힘들어 보인다.
         Post newPost = postService.create(CreatePostDto.of(boardId, authorId, userPostTitle, userPostContent));
         boardService.addPostToBoard(newPost);
+        memberService.addPostToMember(newPost);
         return newPost.getId();
     }
 
