@@ -1,10 +1,10 @@
 package io;
 
-import io.global.config.AppConfig;
+import io.global.config.Container;
 
 public class Main {
     public static void main(String[] args) {
-        Application application = AppConfig.getApplication();
+        Application application = Container.getApplication();
         application.play();
     }
 }

@@ -16,8 +16,8 @@ public class Member {
     private String email;
     private Role role;
     private List<Post> posts;
-
     private LocalDateTime created;
+
     private Member(String username, String password, String nickname, String email, Role role) {
         this.username = username;
         this.password = password;
@@ -77,7 +77,7 @@ public class Member {
         return new Member(dto.getUsername(), dto.getPassword(), dto.getNickname(), dto.getEmail(), Role.MEMBER);
     }
 
-    public static Member ofAdmin() {
-        return new Member("admin", "admin1234", "admin", "example@gmail.com", Role.ADMIN);
+    public static Member ofAdmin(String username, String password, String nickname, String email) {
+        return new Member(username, password, nickname, email, Role.ADMIN);
     }
 }

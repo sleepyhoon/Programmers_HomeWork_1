@@ -10,8 +10,9 @@ import io.domain.post.dao.PostRepository;
 import io.domain.board.service.BoardService;
 import io.domain.member.service.MemberService;
 import io.domain.post.service.PostService;
+import io.global.auth.Filter;
 
-public abstract class AppConfig {
+public abstract class Container {
     private static final PostRepository postRepository = new PostRepository();
     private static final BoardRepository boardRepository = new BoardRepository();
     private static final MemberRepository memberRepository = new MemberRepository();
@@ -22,13 +23,23 @@ public abstract class AppConfig {
     private static final BoardController boardController = new BoardController(boardService);
     private static final MemberController memberController = new MemberController(memberService);
     private static final Application application = new Application(postController, boardController, memberController);
+    private static final PostConstructor postConstructor = new PostConstructor();
 
     public static Application getApplication() {
         return application;
     }
+    public static MemberService getMemberService() {
+        return memberService;
+    }
+    public static MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 
-    // 관리자 계정 프로그램 시작하자마자 생성하기
-    static {
-        memberService.adminSignUp();
+    public static BoardRepository getBoardRepository() {
+        return boardRepository;
+    }
+
+    public static PostRepository getPostRepository() {
+        return postRepository;
     }
 }

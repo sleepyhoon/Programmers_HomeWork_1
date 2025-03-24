@@ -19,6 +19,10 @@ public class UserRequest {
         return this.parser.isValidURL();
     }
 
+    public String getOriginUrl() {
+        return parser.getURL();
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T getValue(String key, Class<T> cls) {
         // Object -> 뭐든지 바꿀 수 있음.
@@ -35,6 +39,13 @@ public class UserRequest {
 
     public boolean hasParam(String parameter) {
         return parameters.containsKey(parameter);
+    }
+
+    public boolean isLogon() {
+        if(session == null) {
+            return false;
+        }
+        return this.session.getCurrentMemberId() != null;
     }
 
     public String getTarget() {

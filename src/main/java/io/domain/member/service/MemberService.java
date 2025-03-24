@@ -60,15 +60,15 @@ public class MemberService {
         memberRepository.remove(userId);
     }
 
-    public void adminSignUp() {
-        Member admin = Member.ofAdmin();
-        memberRepository.save(admin);
-    }
-
     public void addPostToMember(Post post) {
         Member member = memberRepository.findById(post.getAuthorId()).orElseThrow(
                 () -> new NotFoundMemberException("해당 id를 가진 멤버가 없습니다.")
         );
         member.addPost(post);
+    }
+
+    public Member findById(Integer memberId) {
+        return memberRepository.findById(memberId).orElseThrow(
+                () -> new NotFoundMemberException("해당 id를 가진 멤버가 없습니다."));
     }
 }

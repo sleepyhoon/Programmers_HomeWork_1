@@ -8,6 +8,7 @@ import io.domain.member.dto.CreateMemberDto;
 import io.domain.member.dto.UpdateMemberDto;
 import io.domain.view.InputView;
 import io.domain.view.OutputView;
+import io.global.auth.Filter;
 import io.global.auth.Session;
 import io.global.util.UserRequest;
 
@@ -37,6 +38,13 @@ public class Application {
                     OutputView.showInvalidCommand();
                     continue;
                 }
+                Filter filter = new Filter(userRequest);
+
+                if(!filter.isValidRequest()){
+                    System.out.println("권한이 없습니다!");
+                    continue;
+                }
+
                 Controller controller = getController(userRequest.getControllerCode());
                 if(controller == null) {
                     System.out.println("[400] 잘못된 요청입니다.");
