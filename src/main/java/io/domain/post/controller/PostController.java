@@ -40,7 +40,7 @@ public class PostController {
         return postService.update(UpdatePostDto.of(userUpdatePostId, userPostTitle, userPostContent, session));
     }
 
-    public Integer delete(Session session) {
-        return postService.delete(RequestDeletePostDto.from(session));
+    public Integer delete(Session session, Integer removePostId) {
+        return postService.delete(RequestDeletePostDto.from(session,removePostId));
     }
 }

@@ -70,7 +70,8 @@ public class PostService {
             throw new UnauthorizedAccessException("본인이 작성한 게시글이 아닙니다");
         }
 
-        postRepository.delete(currentMemberId);
-        return currentMemberId;
+        Integer removePostId = requestDeletePostDto.getRemovePostId();
+        postRepository.delete(removePostId);
+        return removePostId;
     }
 }

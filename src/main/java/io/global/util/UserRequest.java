@@ -33,6 +33,10 @@ public class UserRequest {
         return cls.cast(value.toString());
     }
 
+    public boolean hasParam(String parameter) {
+        return parameters.containsKey(parameter);
+    }
+
     public String getTarget() {
         return this.parser.getTarget();
     }

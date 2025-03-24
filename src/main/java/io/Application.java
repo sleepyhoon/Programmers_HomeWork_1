@@ -22,6 +22,7 @@ public class Application {
         this.memberController = memberController;
     }
 
+    // 각각의 구현부를 컨트롤러에 위임하는게 더 좋아보임. 인터페이스로 묶으면 다형성 활용 가능.
     public void play() {
         while (true) {
             try {
@@ -41,15 +42,21 @@ public class Application {
                 if (controllerCode.equals("posts")) {
                     switch (target) {
                         case "add" -> {
+                            if (userRequest.hasParam("boardId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("boardId", Integer.class);
                             Session session = userRequest.getSession();
                             if (session == null || session.getCurrentMemberId() == null) {
                                 OutputView.showLoginRequiredMessage();
                                 break;
                             }
-                            OutputView.showCreateResult(postController.create(parameter,session));
+                            OutputView.showCreateResult(postController.create(parameter, session));
                         }
                         case "edit" -> {
+                            if (userRequest.hasParam("postId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("postId", Integer.class);
                             Session session = userRequest.getSession();
                             if (session == null || session.getCurrentMemberId() == null) {
@@ -57,17 +64,26 @@ public class Application {
                                 break;
                             }
                             OutputView.startUpdate(parameter);
-                            OutputView.showUpdateResult(postController.update(parameter,session));
+                            OutputView.showUpdateResult(postController.update(parameter, session));
                         }
                         case "remove" -> {
+                            if (userRequest.hasParam("postId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
+                            parameter = userRequest.getValue("postId", Integer.class);
+
                             Session session = userRequest.getSession();
                             if (session == null || session.getCurrentMemberId() == null) {
                                 OutputView.showLoginRequiredMessage();
                                 break;
                             }
-                            OutputView.showDeleteResult(postController.delete(session));
+
+                            OutputView.showDeleteResult(postController.delete(session, parameter));
                         }
                         case "view" -> {
+                            if (userRequest.hasParam("postId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("postId", Integer.class);
                             OutputView.showPost(postController.select(parameter));
                         }
@@ -76,18 +92,28 @@ public class Application {
                 } else if (controllerCode.equals("boards")) {
                     switch (target) {
                         case "view" -> {
+                            if (userRequest.hasParam("boardName")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             String boardName = userRequest.getValue("boardName", String.class);
-                            OutputView.showAllPosts(boardController.selectAllPosts(userRequest.getSession(), boardName));
+                            OutputView.showAllPosts(
+                                    boardController.selectAllPosts(userRequest.getSession(), boardName));
                         }
                         case "add" -> {
                             OutputView.showCreateResult(boardController.create(userRequest.getSession()));
                         }
                         case "edit" -> {
+                            if (userRequest.hasParam("boardId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("boardId", Integer.class);
                             boardController.update(parameter);
                             OutputView.showUpdateResult(parameter);
                         }
                         case "remove" -> {
+                            if (userRequest.hasParam("boardId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("boardId", Integer.class);
                             boardController.delete(parameter);
                             OutputView.showDeleteResult(parameter);
@@ -118,10 +144,16 @@ public class Application {
                             OutputView.showSignOutResult();
                         }
                         case "detail" -> {
+                            if (userRequest.hasParam("accountId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("accountId", Integer.class);
                             OutputView.showMemberDetail(memberController.detail(parameter));
                         }
                         case "edit" -> {
+                            if (userRequest.hasParam("accountId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("accountId", Integer.class);
                             String userPassword = InputView.getUserPassword();
                             String userEmail = InputView.getUserEmail();
@@ -129,6 +161,9 @@ public class Application {
                             OutputView.showMemberUpdateResult();
                         }
                         case "remove" -> {
+                            if (userRequest.hasParam("accountId")) {
+                                System.out.println("[400] 잘못된 요청입니다.");
+                            }
                             parameter = userRequest.getValue("accountId", Integer.class);
                             memberController.remove(parameter);
                             OutputView.showMemberDeleteResult();
@@ -136,12 +171,14 @@ public class Application {
                         default -> OutputView.showInvalidCommand();
                     }
                 }
+            } catch (NullPointerException e) {
+                System.out.println("[404] 찾으시는 것이 없습니다.");
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("올바른 입력을 해주세요!");
             } catch (NumberFormatException e) {
                 System.out.println("입력된 숫자 형식을 확인해주세요!");
             } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
+                System.out.println("[400] 잘못된 요청입니다.");
                 e.getStackTrace();
             }
         }
