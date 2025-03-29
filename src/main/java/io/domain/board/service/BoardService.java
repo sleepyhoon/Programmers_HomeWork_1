@@ -24,16 +24,13 @@ public class BoardService {
         this.memberRepository = memberRepository;
     }
 
-    public List<ResponsePostDto> selectAllPosts(Session session, String boardName) {
+    public List<ResponsePostDto> selectAllPosts(String boardName) {
         List<Post> posts = boardRepository.selectAllPosts(boardName);
         if (posts == null) {
             throw new NoSuchBoardNameException(boardName + " 이름을 가진 board는 없습니다.");
         }
         return posts.stream()
                 .map(post -> {
-                    if (session == null) {
-                        throw new UnauthenticatedException("로그인을 해야 게시글을 작성할 수 있습니다.");
-                    }
                     String username = memberRepository.findUsernameById(post.getAuthorId()).orElseThrow(
                             () -> new NotFoundMemberException(post.getAuthorId() + "번 유저가 없습니다.")
                     );
@@ -41,7 +38,7 @@ public class BoardService {
                 })
                 .toList();
     }
-
+    
     public Integer create(CreateBoardDto boardDto) {
         Board board = Board.of(boardDto);
         boardRepository.save(board);

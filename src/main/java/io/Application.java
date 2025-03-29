@@ -24,7 +24,6 @@ public class Application {
         this.memberController = memberController;
     }
 
-    // 각각의 구현부를 컨트롤러에 위임하는게 더 좋아보임. 인터페이스로 묶으면 다형성 활용 가능.
     public void play() {
         while (true) {
             try {
@@ -64,6 +63,7 @@ public class Application {
         }
     }
 
+    // handlerMapping 과정을 구현
     private Controller getController(String controllerCode) {
         switch (controllerCode) {
             case "posts" -> {

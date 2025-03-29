@@ -47,7 +47,7 @@ public class PostService {
         }
         Post post = postRepository.get(updatePostDto.getId());
         Session session = updatePostDto.getSession();
-        if (session.isNotAdmin() && !post.getAuthorId().equals(session.getCurrentMemberId())) {
+        if (!post.getAuthorId().equals(session.getCurrentMemberId())) {
             throw new UnauthorizedAccessException("본인이 작성한 게시글이 아닙니다");
         }
         post.update(updatePostDto);
@@ -57,12 +57,11 @@ public class PostService {
 
     public Integer delete(RequestDeletePostDto requestDeletePostDto) {
         Session session = requestDeletePostDto.getSession();
-        Integer currentMemberId = session.getCurrentMemberId();
         if (!postRepository.contains(currentMemberId)) {
             throw new NotFoundPostException(currentMemberId + "번 게시글은 존재하지 않습니다.");
         }
         Post post = postRepository.get(currentMemberId);
-        if (session.isNotAdmin() && !post.getAuthorId().equals(currentMemberId)) {
+        if (!post.getAuthorId().equals(currentMemberId)) {
             throw new UnauthorizedAccessException("본인이 작성한 게시글이 아닙니다");
         }
 

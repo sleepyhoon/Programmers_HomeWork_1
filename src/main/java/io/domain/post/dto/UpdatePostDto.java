@@ -1,18 +1,17 @@
 package io.domain.post.dto;
 
-import io.global.auth.Session;
 import java.util.Objects;
 
 public class UpdatePostDto {
     private final Integer id;
-    private final Session session;
+    private final Integer currentMemberId;
     private final String title;
     private final String content;
 
     // private 생성자
-    private UpdatePostDto(Integer id, Session session, String title, String content) {
+    private UpdatePostDto(Integer id, Integer currentMemberId, String title, String content) {
         this.id = id;
-        this.session = session;
+        this.currentMemberId = currentMemberId;
         this.title = Objects.requireNonNull(title);
         this.content = Objects.requireNonNull(content);
     }
@@ -29,12 +28,12 @@ public class UpdatePostDto {
         return content;
     }
 
-    public Session getSession() {
-        return session;
+    public Integer getCurrentMemberId() {
+        return currentMemberId;
     }
 
     // 정적 팩토리 메서드
-    public static UpdatePostDto of(Integer id, String title, String content, Session session) {
-        return new UpdatePostDto(id, session, title, content);
+    public static UpdatePostDto of(Integer id, Integer authorId, String title, String content) {
+        return new UpdatePostDto(id, authorId, title, content);
     }
 }

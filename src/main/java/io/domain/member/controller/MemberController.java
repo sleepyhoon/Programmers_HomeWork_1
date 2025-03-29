@@ -32,14 +32,14 @@ public class MemberController implements Controller {
             case "signin" -> {
                 String username = InputView.getUsername();
                 String userPassword = InputView.getUserPassword();
-                if (signIn(userRequest.getSession(), username, userPassword)) {
+                if (signIn(username, userPassword)) {
                     OutputView.showSignInResult();
                 } else {
                     OutputView.showMemberNotFound();
                 }
             }
             case "signout" -> {
-                signOut(userRequest.getSession());
+                signOut();
                 OutputView.showSignOutResult();
             }
             case "detail" -> {
@@ -78,17 +78,11 @@ public class MemberController implements Controller {
         return memberService.signUp(createMemberDto);
     }
 
-    private boolean signIn(Session session, String username, String password) {
-        if (session != null) {
-            throw new DuplicateSignInException("이미 로그인 상태입니다.");
-        }
+    private boolean signIn(String username, String password) {
         return memberService.signIn(username, password);
     }
 
-    private void signOut(Session session) {
-        if (session == null) {
-            throw new DuplicateSignInException("이미 로그아웃 상태입니다.");
-        }
+    private void signOut() {
         memberService.signOut();
     }
 

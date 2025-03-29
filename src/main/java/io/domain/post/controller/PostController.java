@@ -54,7 +54,7 @@ public class PostController implements Controller {
                     return;
                 }
                 OutputView.startUpdate(postId);
-                OutputView.showUpdateResult(update(postId, session));
+                OutputView.showUpdateResult(update(postId, session.getCurrentMemberId()));
             }
             case "remove" -> {
                 if (!userRequest.hasParam("postId")) {
@@ -69,7 +69,7 @@ public class PostController implements Controller {
                     return;
                 }
 
-                OutputView.showDeleteResult(delete(session, postId));
+                OutputView.showDeleteResult(delete(session.getCurrentMemberId(), postId));
             }
             case "view" -> {
                 if (!userRequest.hasParam("postId")) {
@@ -99,14 +99,14 @@ public class PostController implements Controller {
         return postService.select(RequestSelectPostDto.from(userSelectId));
     }
 
-    private Integer update(Integer userUpdatePostId, Session session) {
+    private Integer update(Integer userUpdatePostId, Integer authorId) {
         String userPostTitle = InputView.getUserTitle();
         String userPostContent = InputView.getUserContent();
-        return postService.update(UpdatePostDto.of(userUpdatePostId, userPostTitle, userPostContent, session));
+        return postService.update(UpdatePostDto.of(userUpdatePostId, authorId, userPostTitle, userPostContent));
     }
 
-    private Integer delete(Session session, Integer removePostId) {
-        return postService.delete(RequestDeletePostDto.from(session, removePostId));
+    private Integer delete(Integer currentMemberId, Integer removePostId) {
+        return postService.delete(RequestDeletePostDto.from(currentMemberId, removePostId));
     }
 
 }

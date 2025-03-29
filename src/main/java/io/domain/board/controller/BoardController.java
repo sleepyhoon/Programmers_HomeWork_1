@@ -28,7 +28,7 @@ public class BoardController implements Controller {
                     return;
                 }
                 String boardName = userRequest.getValue("boardName", String.class);
-                OutputView.showAllPosts(selectAllPosts(userRequest.getSession(), boardName));
+                OutputView.showAllPosts(selectAllPosts(boardName));
             }
             case "add" -> {
                 OutputView.showCreateResult(create(userRequest.getSession()));
@@ -56,16 +56,13 @@ public class BoardController implements Controller {
     }
 
     private Integer create(Session session) {
-        if (session.isNotAdmin()) {
-            throw new UnauthenticatedException("관리자 계정이 아닙니다.");
-        }
         String userTitle = InputView.getUserTitle();
         String userContent = InputView.getUserContent();
         return boardService.create(CreateBoardDto.of(session.getCurrentMemberId(), userTitle, userContent));
     }
 
-    private List<ResponsePostDto> selectAllPosts(Session session, String boardName) {
-        return boardService.selectAllPosts(session, boardName);
+    private List<ResponsePostDto> selectAllPosts(String boardName) {
+        return boardService.selectAllPosts(boardName);
     }
 
     private void delete(Integer boardId) {

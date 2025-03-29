@@ -15,10 +15,10 @@ public class PostConstructor {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    public PostConstructor() {
-        this.memberRepository = Container.getMemberRepository();
-        this.postRepository = Container.getPostRepository();
-        this.boardRepository = Container.getBoardRepository();
+    public PostConstructor(MemberRepository memberRepository, PostRepository postRepository, BoardRepository boardRepository) {
+        this.memberRepository = memberRepository;
+        this.postRepository = postRepository;
+        this.boardRepository = boardRepository;
 
         dataInitialize(5, 4, 50);
     }

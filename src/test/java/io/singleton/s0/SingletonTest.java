@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class SingletonTest {
     @Test
-    @DisplayName("가장 간단히 싱글톤 테스트 (2개가 같음)")
+    @DisplayName("가장 간단히 싱글톤 테스트 (2개가 같음) - 메모리가 낭비됨")
     void test1() throws Exception {
         Singleton instance1 = Singleton.getInstance();
         Singleton instance2 = Singleton.getInstance();

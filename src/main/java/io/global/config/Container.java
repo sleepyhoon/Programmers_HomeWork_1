@@ -23,23 +23,13 @@ public abstract class Container {
     private static final BoardController boardController = new BoardController(boardService);
     private static final MemberController memberController = new MemberController(memberService);
     private static final Application application = new Application(postController, boardController, memberController);
-    private static final PostConstructor postConstructor = new PostConstructor();
+    private static final PostConstructor postConstructor = new PostConstructor(memberRepository,postRepository,boardRepository);
 
     public static Application getApplication() {
         return application;
     }
+
     public static MemberService getMemberService() {
         return memberService;
-    }
-    public static MemberRepository getMemberRepository() {
-        return memberRepository;
-    }
-
-    public static BoardRepository getBoardRepository() {
-        return boardRepository;
-    }
-
-    public static PostRepository getPostRepository() {
-        return postRepository;
     }
 }
