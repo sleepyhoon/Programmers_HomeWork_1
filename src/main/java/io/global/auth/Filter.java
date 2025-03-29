@@ -22,23 +22,20 @@ public class Filter {
         UrlAuthType urlAuthType = sorting(originUrl);
 
         boolean isLogOn = userRequest.isLogon();
-        if(urlAuthType == UrlAuthType.ANONYMOUS) {
-            if(isLogOn) {
+        if (urlAuthType == UrlAuthType.ANONYMOUS) {
+            if (isLogOn) {
                 return false;
             }
         } else if (urlAuthType == UrlAuthType.ADMIN) {
-            if(!isLogOn) {
+            if (!isLogOn) {
                 return false;
             }
 
-            // session 이 없어서 다른 방식으로 찾아야함.
             Member findMember = memberService.findById(userRequest.getSession().getCurrentMemberId());
 
-            if(!Objects.equals(findMember.getRole().getValue(), UrlAuthType.ADMIN.getValue())) {
-                return false;
-            }
+            return Objects.equals(findMember.getRole().getValue(), UrlAuthType.ADMIN.getValue());
         } else if (urlAuthType == UrlAuthType.HAS_AUTH) {
-            if(!isLogOn) {
+            if (!isLogOn) {
                 return false;
             }
         }

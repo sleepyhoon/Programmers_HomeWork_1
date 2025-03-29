@@ -58,7 +58,7 @@ public class PostConstructor {
         }
     }
 
-    public void saveAdmin(String username, String password, String nickname, String email) {
+    private void saveAdmin(String username, String password, String nickname, String email) {
         Member admin = Member.ofAdmin(username, password, nickname, email);
         memberRepository.save(admin);
     }
